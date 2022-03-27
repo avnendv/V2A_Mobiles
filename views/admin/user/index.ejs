@@ -1,0 +1,170 @@
+<%- include('../layouts/header',{title: 'Quản lý tài khoản'}) %>
+<div id="main-content">
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tài khoản
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="d-flex col-md-6 flex-column">
+                            <h4 class="card-title">Tài khoản</h4>
+                            <a href="user/create">Thêm</a>
+                        </div>
+                        <div class="float-end col-md-6 text-end">
+                            <a href="#collapseFilter" class="btn btn-outline-info text-primary float-sm-right" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseFilter">
+                                <i class="bi bi-funnel"></i>
+                                Lọc
+                            </a>
+                        </div>
+                        <div class="collapse mt-3 w-100 <%= query && Object.keys(query).length !== 0 && 'show' %>" id="collapseFilter">
+                            <div class="card card-body">
+                                <form action="" method="get">
+                                    <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="user_id">ID</label>
+                                            <input type="text" class="form-control" id="user_id" name="user_id" value="<%= query.user_id %>"/>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="user_name">Tên người dùng</label>
+                                            <input type="text" class="form-control" id="user_name" name="user_name" value="<%= query.user_name %>"/>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="full_name">Họ tên</label>
+                                            <input type="text" class="form-control" id="full_name" name="full_name" value="<%= query.full_name %>"/>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="<%= query.email %>"/>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="user_type">Loại người dùng</label>
+                                            <select id="user_type" class="form-select" name="user_type">
+                                                <option value="">Chọn loại người dùng</option>
+                                                <% userType.forEach(type => { %>
+                                                    <option value="<%= type %>" <%= Number(query.user_type) === type ? 'selected' : '' %> ><%= type %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-filter"></i> Lọc
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <% if (users && users.listUser.length > 0) { %>
+                        <table class="table table-hover table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tên tài khoản</th>
+                                    <th>Họ tên</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th>Loại tài khoản</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.listUser.forEach(user => { %>
+                                    <tr>
+                                        <td><%= user.id %></td>
+                                        <td><%= user.user_name %></td>
+                                        <td><%= user.full_name %> </td>
+                                        <td><%= user.phone %> </td>
+                                        <td><%= user.email %> </td>
+                                        <td><%= user.user_type %> </td>
+                                        <td class="text-right">
+                                            <a class="btn btn-info btn-sm btn-action" href="user/edit/<%= user.id %>">
+                                                <i class="bi bi-pencil"> </i>
+                                                Edit
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete" data-type="user" data-id="<%= user.id %>">
+                                                <i class="bi bi-trash"> </i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <div class="text-danger text-center">Không có tài khoản nào nào</div>
+                    <% } %>
+                </div>
+                <div class="m-3">
+                    <!-- pagination -->
+                    <% if(users.totalPage > 0) { %>
+                        <!-- show pagination if there is pages -->
+                        <nav class="mx-auto">
+                            <% var q = Object.keys(query).length !== 0 ? ('&user_id=' + (query.user_id ? query.user_id : '') + '&user_name=' + (query.user_name ? query.user_name : '') + '&full_name=' + (query.full_name ? query.full_name : '') + '&email=' + (query.email ? query.email : '') + '&user_type=' + (query.user_type ? query.user_type : '')) : '' %>
+                            <ul class="pagination">
+                                <!-- FIRST ITEM -->
+                                <% if(users.page == 1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#"><i class="bi bi-chevron-double-left"></i></a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1<%= q %>"><i class="bi bi-chevron-double-left"></i></a>
+                                    </li>
+                                <% } %>
+                                <!-- ITEMS  -->
+                                <% var i = (Number(users.page) > 5 ? Number(users.page) - 4 : 1) %> 
+                                <% if(i !== 1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% for(; i <= (Number(users.page) + 4) && i <= users.totalPage; i++){ %>
+                                    <% if(i == users.page) { %>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="?page=<%= i %><%= q %>"> <%= i %> </a>
+                                        </li>
+                                    <% } else { %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<%= i %><%= q %>"> <%= i %> </a>
+                                        </li>
+                                    <% } %>
+                                    <% if (i == Number(users.page) + 4 && i < users.totalPage) { %>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">...</a>
+                                        </li>
+                                    <% } %>
+                                <% } %>
+                                <% if(users.page == users.totalPage) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#"> <i class="bi bi-chevron-double-right"></i> </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= users.totalPage %>"> <i class="bi bi-chevron-double-right"></i> </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </div>
+<%- include('../layouts/footer') %>
+<!-- modal delete -->
+<%- include('../components/modal-delete') %>

@@ -1,0 +1,25 @@
+<div class="sidebar-menu">
+    <ul class="menu">
+        <li class="sidebar-title">Menu</li>
+        <% if (linksAdmin) { %>
+            <% linksAdmin.forEach(link => { %>
+                <li class="sidebar-item <%= link.linkItem.status ? 'has-sub' : '' %> <%= link.active %> ">
+                    <a href="<%= link.link %>" class='sidebar-link'>
+                        <i class="<%= link.icon  %>"></i>
+                        <span><%= link.name %></span>
+                    </a>
+                </li>
+                <% if (link.linkItem.status) { %>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="component-alert.html">Alert</a>
+                        </li>
+                    </ul>
+                <% } %>
+            <% }) %>
+        <% } %>
+    </ul>
+</div>
+<button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+</div>
+</div>

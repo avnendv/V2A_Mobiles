@@ -1,0 +1,411 @@
+<%- include('../layouts/header',{title: 'Chỉnh sửa điện thoại'}) %>
+<script src="/back/assets/vendors/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+    selector: '#detail',
+    plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste imagetools wordcount'
+  ],
+  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  content_style: 'body { font-family: Roboto, sans-serif; font-size:14px }'
+  });
+</script>
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Điện thoại
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <% if (phone && phone.length) { %>
+            <section class="section">
+                <form action="/admin/phone/edit/<%= phone[0].id %>?_method=PUT" method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Chỉnh sửa điện thoại</h4>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="phone_name">Tên điện thọai</label>
+                                        <input type="text" id="phone_name" class="form-control" placeholder="Tên điện thoại" name="name" value="<%= phone[0].phone_name %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="parent_id">Điện thoại cùng loại</label>
+                                        <input type="text" id="parent_id" class="form-control" placeholder="Điện thoại cùng loại" name="parent_id" value="<%= phone[0].parent_id %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="branch_id">Thương hiệu</label>
+                                        <fieldset class="form-group">
+                                            <select class="form-select" id="branch_id" name="branch_id">
+                                                <option value>--- Chọn thương hiệu ---</option>
+                                                <% if (branches && branches.length) { %>
+                                                    <% branches.forEach(branch => { %>
+                                                        <option value="<%= branch.id %>" <%= branch.id === phone[0].branch_id ? 'selected' : '' %>><%= branch.name %></option>
+                                                    <% }) %>
+                                                <% } %>
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="price">Giá</label>
+                                        <input type="number" id="price" class="form-control" placeholder="Giá" name="price" value="<%= phone[0].price %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row match-height">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Màn hình</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_screen_size">Kích thước màn hình</label>
+                                                        <input type="text" id="spec_screen_size" class="form-control" placeholder="Kích thước màn hình" name="spec_screen_size" value="<%= phone[0].spec_screen_size %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_screen_ratio">Tỷ lệ màn hình</label>
+                                                        <input type="text" id="spec_screen_ratio" class="form-control" placeholder="Tỷ lệ màn hình" name="spec_screen_ratio" value="<%= phone[0].spec_screen_ratio %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_screen_tech">Công nghệ màn hình</label>
+                                                        <input type="text" id="spec_screen_tech" class="form-control" placeholder="Công nghệ màn hình" name="spec_screen_tech" value="<%= phone[0].spec_screen_tech %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_screen_resolution">Độ phân giải màn hình</label>
+                                                        <input type="text" id="spec_screen_resolution" class="form-control" name="spec_screen_resolution" placeholder="Độ phân giải màn hình" value="<%= phone[0].spec_screen_resolution %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_screen_protector">Kính bảo vệ màn hình</label>
+                                                        <input type="text" id="spec_screen_protector" class="form-control" name="spec_screen_protector" placeholder="Kính bảo vệ màn hình" value="<%= phone[0].spec_screen_protector %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Camera sau</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_his_screen_lens_num">Số ống kính</label>
+                                                        <input type="text" id="spec_his_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_his_screen_lens_num" value="<%= phone[0].spec_his_screen_lens_num %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_his_camera">Độ phân giải & khẩu độ</label>
+                                                        <input type="text" id="spec_his_camera" name="spec_his_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= phone[0].spec_his_camera %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_his_screen_record">Quay phim camera sau</label>
+                                                        <input type="text" id="spec_his_screen_record" class="form-control" placeholder="Quay phim camera sau" name="spec_his_screen_record" value="<%= phone[0].spec_his_screen_record %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_his_screen_feature">Các tính năng khác camera sau</label>
+                                                        <input type="text" id="spec_his_screen_feature" class="form-control" name="spec_his_screen_feature" placeholder="Các tính năng khác camera sau">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Camera trước</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_font_screen_lens_num">Số ống kính</label>
+                                                        <input type="text" id="spec_font_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_font_screen_lens_num" value="<%= phone[0].spec_font_screen_lens_num %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_font_camera">Độ phân giải & khẩu độ</label>
+                                                        <input type="text" id="spec_font_camera" name="spec_font_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= phone[0].spec_font_camera %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_font_screen_record">Quay phim camera trước</label>
+                                                        <input type="text" id="spec_font_screen_record" class="form-control" placeholder="Quay phim camera trước" name="spec_font_screen_record" value="<%= phone[0].spec_font_screen_record %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_font_screen_feature">Các tính năng khác camera trước</label>
+                                                        <input type="text" id="spec_font_screen_feature" class="form-control" name="spec_font_screen_feature" placeholder="Các tính năng khác camera trước" value="<%= phone[0].spec_font_screen_feature %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Hệ điều hành - CPU</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_os">Hệ điều hành</label>
+                                                        <input type="text" id="spec_os" class="form-control" placeholder="Hệ điều hành" name="spec_os" value="<%= phone[0].spec_os %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_chip">Chíp xử lý (CPU)</label>
+                                                        <input type="text" id="spec_chip" name="spec_chip" class="form-control" placeholder="Chíp xử lý (CPU)" value="<%= phone[0].spec_chip %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_proccess_speed">Tốc độ xử lý</label>
+                                                        <input type="text" id="spec_proccess_speed" class="form-control" placeholder="Tốc độ xử lý" name="spec_proccess_speed" value="<%= phone[0].spec_proccess_speed %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_gpu">Chip xử lý đồ họa (GPU)</label>
+                                                        <input type="text" id="spec_gpu" class="form-control" name="spec_gpu" placeholder="GPU" value="<%= phone[0].spec_gpu %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Bộ nhớ lưu trữ</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_ram">Bộ nhớ RAM</label>
+                                                        <input type="text" id="spec_ram" name="spec_ram" class="form-control" placeholder="Bộ nhớ RAM" value="<%= phone[0].spec_ram %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_rom">Bộ nhớ trong (ROM)</label>
+                                                        <input type="text" id="spec_rom" name="spec_rom" class="form-control" placeholder="Bộ nhớ trong (ROM)" value="<%= phone[0].spec_rom %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_external_memory">Hỗ trợ thẻ nhớ ngoài</label>
+                                                        <input type="text" id="spec_external_memory" class="form-control" placeholder="Hỗ trợ thẻ nhớ ngoài" name="spec_external_memory" value="<%= phone[0].spec_external_memory %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Kết nối</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_charge_port">Cổng kết nối sạc</label>
+                                                        <input type="text" id="spec_charge_port" class="form-control" placeholder="Cổng kết nối sạc" name="spec_charge_port" value="<%= phone[0].spec_charge_port %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_headphone_connection">Cổng kết nối tai nghe</label>
+                                                        <input type="text" id="spec_headphone_connection" class="form-control" placeholder="Cổng kết nối tai nghe" name="spec_headphone_connection" value="<%= phone[0].spec_headphone_connection %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_network_mobile">Mạng di động</label>
+                                                        <input type="text" id="spec_network_mobile" class="form-control" placeholder="Mạng di động" name="spec_network_mobile" value="<%= phone[0].spec_network_mobile %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_wifi">Wifi</label>
+                                                        <input type="text" id="spec_wifi" class="form-control" name="spec_wifi" placeholder="Wifi" value="<%= phone[0].spec_wifi %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_bluetooth">Bluetooth</label>
+                                                        <input type="text" id="spec_bluetooth" class="form-control" name="spec_bluetooth" placeholder="Bluetooth" value="<%= phone[0].spec_bluetooth %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_gps">GPS</label>
+                                                        <input type="text" id="spec_gps" class="form-control" name="spec_gps" placeholder="GPS" value="<%= phone[0].spec_gps %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_sim">Hỗ trợ SIM</label>
+                                                        <input type="text" id="spec_sim" name="spec_sim" class="form-control" placeholder="Hỗ trợ sim" value="<%= phone[0].spec_sim %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Pin - sạc</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_pin">Dung lượng pin</label>
+                                                        <input type="text" id="spec_pin" name="spec_pin" class="form-control" placeholder="Dung lượng pin" value="<%= phone[0].spec_pin %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_fast_charge">Công nghệ sạc nhanh</label>
+                                                        <input type="text" id="spec_fast_charge" class="form-control" placeholder="Công nghệ sạc nhanh" name="spec_fast_charge" value="<%= phone[0].spec_fast_charge %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Thiết kế</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_design_meterial">Vật liệu thiết kế</label>
+                                                        <input type="text" id="spec_design_meterial" class="form-control" placeholder="Vật liệu thiết kế" name="spec_design_meterial" value="<%= phone[0].spec_design_meterial %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_size">Kích thước</label>
+                                                        <input type="text" id="spec_size" class="form-control" placeholder="Kích thước" name="spec_size" value="<%= phone[0].spec_size %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_weight">Trọng lượng</label>
+                                                        <input type="text" id="spec_weight" class="form-control" placeholder="Trọng lượng" name="spec_weight" value="<%= phone[0].spec_weight %>">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Tính năng đặc biệt</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_security">Công nghệ bảo mật</label>
+                                                        <input type="text" id="spec_security" name="spec_security" class="form-control" placeholder="Công nghệ bảo mật" value="<%= phone[0].spec_security %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_water_resistance">Khả năng chống nước</label>
+                                                        <input type="text" id="spec_water_resistance" class="form-control" placeholder="Khả năng chống nước" name="spec_water_resistance" value="<%= phone[0].spec_water_resistance %>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-12">
+                                                    <div class="form-group">
+                                                        <label for="spec_other_feature">Tính năng khác</label>
+                                                        <input type="text" id="spec_other_feature" class="form-control" placeholder="Tính năng khác" name="spec_other_feature" value="<%= phone[0].spec_other_feature %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card py-0 mb-0">
+                                    <div class="card-header py-0">
+                                        <h4 class="card-title">Thông tin chi tiết</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <textarea name="detail" id="detail" rows="7" style="width: 100%;" placeholder="Thông tin chi tiết"><%- phone[0].detail %> </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end px-5 mb-3">
+                            <button class="btn btn-primary" type="submit">Chỉnh sửa</button>
+                            <a href="/admin/phone" class="btn btn-secondary">Hủy bỏ</a>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        <% } else { %>
+            <div class="text-center fst-italic text-danger">Không tìm thấy điện thoại!</div>
+        <% } %>
+    </div>
+<%- include('../layouts/footer') %>

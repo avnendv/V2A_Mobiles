@@ -1,0 +1,145 @@
+<%- include('../layouts/header',{title: 'Quản lý blog'}) %>
+<div id="main-content">
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="d-flex col-md-6 flex-column">
+                            <h4 class="card-title">Blog</h4>
+                            <a href="blog/create">Thêm</a>
+                        </div>
+                        <div class="float-end col-md-6 text-end">
+                            <a href="#collapseFilter" class="btn btn-outline-info text-primary float-sm-right" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseFilter">
+                                <i class="bi bi-funnel"></i>
+                                Lọc
+                            </a>
+                        </div>
+                        <div class="collapse mt-3 w-100 <%= query && Object.keys(query).length !== 0 && 'show' %>" id="collapseFilter">
+                            <div class="card card-body">
+                                <form action="" method="get">
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label for="id">ID</label>
+                                            <input type="text" class="form-control" id="id" name="id" value="<%= query.id %>"/>
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <label for="title">Tiêu đề</label>
+                                            <input type="text" class="form-control" id="title" name="title" value="<%= query.title %>"/>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-filter"></i> Lọc
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <% if (blogs && blogs.listBlog.length > 0) { %>
+                        <table class="table table-hover table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tiêu đề</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% blogs.listBlog.forEach(blog => { %>
+                                    <tr>
+                                        <td><%= blog.id %></td>
+                                        <td><%= blog.title %></td>
+                                        <td class="text-right">
+                                            <a class="btn btn-info btn-sm btn-action" href="blog/edit/<%= blog.id %>">
+                                                <i class="bi bi-pencil"> </i>
+                                                Edit
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete" data-type="blog" data-id="<%= blog.id %>">
+                                                <i class="bi bi-trash"> </i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <div class="text-danger text-center">Không có blog nào!</div>
+                    <% } %>
+                </div>
+                <div class="m-3">
+                    <!-- pagination -->
+                    <% if(blogs.totalPage > 0) { %>
+                        <!-- show pagination if there is pages -->
+                        <nav class="mx-auto">
+                            <% var q = Object.keys(query).length !== 0 ? ('&id=' + (query.id ? query.id : '') + '&title=' + (query.title ? query.title : '')) : '' %>
+                            <ul class="pagination">
+                                <!-- FIRST ITEM -->
+                                <% if(blogs.page == 1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#"><i class="bi bi-chevron-double-left"></i></a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1<%= q %>"><i class="bi bi-chevron-double-left"></i></a>
+                                    </li>
+                                <% } %>
+                                <!-- ITEMS  -->
+                                <% var i = (Number(blogs.page) > 5 ? Number(blogs.page) - 4 : 1) %> 
+                                <% if(i !== 1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% for(; i <= (Number(blogs.page) + 4) && i <= blogs.totalPage; i++){ %>
+                                    <% if(i == blogs.page) { %>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="?page=<%= i %><%= q %>"> <%= i %> </a>
+                                        </li>
+                                    <% } else { %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<%= i %><%= q %>"> <%= i %> </a>
+                                        </li>
+                                    <% } %>
+                                    <% if (i == Number(blogs.page) + 4 && i < blogs.totalPage) { %>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">...</a>
+                                        </li>
+                                    <% } %>
+                                <% } %>
+                                <% if(blogs.page == blogs.totalPage) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#"> <i class="bi bi-chevron-double-right"></i> </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= blogs.totalPage %>"> <i class="bi bi-chevron-double-right"></i> </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </div>
+<%- include('../layouts/footer') %>
+<!-- modal delete -->
+<%- include('../components/modal-delete') %>

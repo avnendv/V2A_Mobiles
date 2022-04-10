@@ -1,0 +1,50 @@
+<%- include('../layouts/header',{title: 'Chỉnh sửa bài viết'}) %>
+<%- include('../components/script-tinymce',{id: 'content'}) %>
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <% if (blog && blog.length) { %>
+            <section class="section">
+                <form action="/admin/blog/edit/<%= blog[0].id %>?_method=PUT" method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Chỉnh sửa bài viết</h4>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="title">Tiêu đề bài viết</label>
+                                        <input type="text" id="title" class="form-control" placeholder="Tiêu đề bài viết" name="title" value="<%= blog[0].title %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="content">Nội dung</label>
+                                        <textarea name="content" id="content" rows="15" style="width: 100%;" placeholder="Nội dung bài viết"><%= blog[0].content %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end px-5 mb-3">
+                            <button class="btn btn-primary" type="submit">Cập nhật</button>
+                            <a href="/admin/blog" class="btn btn-secondary">Hủy bỏ</a>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        <% } else { %>
+            <div class="text-center fst-italic text-danger">Không tìm thấy bài viết!</div>
+        <% } %>
+    </div>
+<%- include('../layouts/footer') %>

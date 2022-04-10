@@ -68,7 +68,7 @@ module.exports = {
     },
     update: (data, id, user_id) => {
         return new Promise((reslove, reject) => {
-            const sql = 'UPDATE phones SET ? WHERE id = ? AND user_id = ?';
+            const sql = 'UPDATE blog SET ? WHERE id = ? AND `user_id` = ?';
             conn.query(sql, [{...data, updated_at: new Date()}, id, user_id], (err, result) => {
                 if (err) {
                     reject(err);

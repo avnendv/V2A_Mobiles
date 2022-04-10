@@ -46,7 +46,7 @@
                                             <select id="branch" class="form-select" name="branch_id">
                                                 <option value="">Chọn thương hiệu</option>
                                                 <% branches.forEach(branch => { %>
-                                                    <option value="<%= branch.branch_id %>" <%= Number(query.branch_id) === branch.branch_id ? 'selected' : '' %> ><%= branch.branch_name %></option>
+                                                    <option value="<%= branch.id %>" <%= Number(query.branch_id) === branch.id ? 'selected' : '' %> ><%= branch.name %></option>
                                                 <% }) %>
                                             </select>
                                         </div>

@@ -1,9 +1,8 @@
 import React from "react";
-import PhoneLastest from "../../components/Home/PhoneLastest";
-import SliderTop from "../../components/SliderTop";
-import 'antd/dist/antd.css';
 
 // Screens
+import PhoneLastest from "../../components/Home/PhoneLastest";
+import SliderTop from "../../components/SliderTop";
 import ScreensLayout from '../Layout/Layout';
 import PhoneWidgetArea from "../../components/Home/PhoneWidgetArea";
 

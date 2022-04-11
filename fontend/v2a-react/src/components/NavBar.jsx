@@ -38,7 +38,7 @@ export default function NavBar(props) {
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav>
-                                <Link to={''} className='nav-link'>Điện thoại
+                                <Link to={linkName.PHONE} className='nav-link'>Điện thoại
                                     <div className="sub-menu">
                                         <ul>
                                                 <li><a href="https://hungmobile.vn/dien-thoai/apple-iphone" title="">iPhone</a></li>

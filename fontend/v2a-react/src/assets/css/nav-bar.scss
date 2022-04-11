@@ -6,7 +6,7 @@
         &:hover {
             .sub-menu {
                 opacity: 1;
-                visibility: visible;
+                display: block;
                 top: 32px;
                 left: 0;
             }
@@ -21,7 +21,7 @@
             left: -200px;
             background-color: #fff;
             top: 90px;
-            visibility: hidden;
+            display: none;
             -webkit-transition: all .3s ease-in-out;
             -moz-transition: all .3s ease-in-out;
             -ms-transition: all .3s ease-in-out;

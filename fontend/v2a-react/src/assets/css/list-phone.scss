@@ -1,0 +1,109 @@
+.list-phone {
+    .product-filters {
+        background: #fff 0% 0% no-repeat padding-box;
+        box-shadow: 0 3px 6px #00000029;
+        border-radius: 14px;
+        margin: 20px 0;
+        position: relative;
+        display: flex;
+        .left, .right {
+            display: flex;
+            justify-items: right;
+            justify-content: right;
+            width: 100px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+        .left {
+            flex-basis: auto;
+            flex-shrink: 1;
+            flex-grow: 2;
+            strong.label {
+                display: inline-block;
+                color: #5a88ca;
+                padding: 15px 20px;
+            }
+        }
+        .facet {
+            display: block;
+            padding: 15px 10px;
+            margin-right: 15px;
+            label {
+                display: flex;
+                align-items: center;
+            }
+            .sub {
+                display: none;
+                position: absolute;
+                width: 100%;
+                z-index: 123;
+                left: 0;
+                top: 40px;
+                padding-top: 10px;
+                ul {
+                    background: #fff;
+                    box-shadow: 0 3px 6px #00000029;
+                    border-radius: 14px;
+                    margin: 0;
+                    display: grid;
+                    grid-template-columns: auto auto auto auto auto;
+                    padding: 5px 10px;
+                    grid-column-gap: 10px;
+                    li {
+                        list-style: none;
+                        padding: 5px;
+                        a {
+                            display: flex;
+                        }
+                    }
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                label {
+                    &:hover {
+                        color: #fd475a;
+                        cursor: pointer;
+                    }
+                }
+                .sub {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+.phone-detail {
+    .product-shop {
+        background: #fff 0% 0% no-repeat padding-box;
+        border: 1px solid #999;
+        border-radius: 6px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+    }
+    .product-layout {
+        display: flex;
+        margin-top: 20px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+        .product-left {
+            flex-grow: 1;
+            background: #fff;
+            box-shadow: 0 3px 6px #00000029;
+            border-radius: 14px;
+        }
+        .product-right {
+            background: #fff;
+            box-shadow: 0 3px 6px #00000029;
+            border-radius: 14px;
+            flex: 0 0 380px;
+            margin-left: 20px;
+            .product-specs {
+                padding: 15px;
+            }
+        }
+    }
+}

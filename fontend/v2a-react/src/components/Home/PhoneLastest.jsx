@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Carousel } from 'antd';
 import PhoneCard from '../Phone/PhoneCard';
+import linkName from '../../constants/linkName';
 export default function PhoneLastest(props) {
     const slider = useRef(null);
     return (
@@ -19,7 +20,7 @@ export default function PhoneLastest(props) {
                                 <Carousel slidesToScroll={1} slidesToShow={5} className="product-carousel" ref={slider}>
                                     {
                                         [1,2,3,4,5,6,7,8,9].map((item, index) => {
-                                            return <PhoneCard phone={item} key={index} />
+                                            return <PhoneCard phone={item} key={index} link={linkName.PHONE} />
                                         })
                                     }
                                 </Carousel>

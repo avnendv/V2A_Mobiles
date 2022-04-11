@@ -10,7 +10,9 @@ body {
 a {
     text-decoration: none;
 }
-
+ul li {
+    list-style: none;
+}
 .floatleft {
     float: left
 }
@@ -921,7 +923,7 @@ ol.slide-indicators li.active {
 }
 
 .single-product-area {
-    padding: 80px 0 130px;
+    padding: 0px 0 100px;
 }
 
 

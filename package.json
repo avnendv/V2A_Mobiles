@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "web": "npm start --prefix ./fontend/v2a-react",
+    "dev": "concurrently \"npm start\" \"npm run web\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^7.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",

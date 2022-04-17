@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import ModalAuth from '../../../components/Auth/ModalAuth';
 import NavBar from '../../../components/NavBar';
-import linkName from '../../../constants/linkName';
 
 export default function Header(props) {
-
+    const [modalShow, setModalShow] = useState(false);
+    const togleModal = () => setModalShow(!modalShow);
     return (
         <>
             <div className="header-area">
@@ -19,12 +19,13 @@ export default function Header(props) {
                                 <i className="fa fa-solid fa-phone"> Hotline: 01234567890</i>
                             </div>
                             <div>
-                                <Link to={linkName.LOGIN}>Đăng nhập</Link>
+                                <button className='btn btn-primary btn-login' onClick={() => setModalShow(true)}>Đăng nhập</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {modalShow && <ModalAuth show={modalShow} onHide={togleModal} />}
             <NavBar/>
         </>
     );

@@ -5,6 +5,7 @@
 }
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
 }
 
 a {
@@ -69,6 +70,17 @@ h6 {
 .header-area a {
     color: #fff;
 }
+.header-area .btn-login {
+    color: #fff;
+    background-color: unset;
+    border: unset;
+    padding: unset;
+    font-size: inherit;
+    font-weight: inherit;
+}
+.header-area .btn-login:hover {
+    color: #1725a7;
+}
 .site-branding-area .input-group {
     box-shadow: 0 4px 6px #ccc;
     height: 50px;
@@ -76,9 +88,6 @@ h6 {
 .site-branding-area .btn-search {
     background-color: #72a8e6;
     width: 60px;
-}
-.site-branding-area .navbar {
-    background-color: #FFF !important;
 }
 .user-menu ul {
     list-style: outside none none;
@@ -160,6 +169,7 @@ h6 {
     padding: 10px;
     position: relative;
     border-radius: 5px;
+    background-color: #72a8e6;
 }
 
 .shopping-item a {
@@ -438,7 +448,6 @@ h6 {
 }
 
 .promo-area {
-    background: #fbfbfb;
     color: #fff;
     padding: 40px 0 40px;
 }

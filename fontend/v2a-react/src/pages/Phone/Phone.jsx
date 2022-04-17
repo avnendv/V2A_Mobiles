@@ -29,6 +29,10 @@ export default function Phone(){
                             <div className="product-specs">Thông số</div>
                         </div>
                     </div>
+                    <div className="product-relate">
+                        <h3 className="text-center my-3">Sản phẩm liên quan</h3>
+
+                    </div>
                 </div>
             </div> 
         </ScreensLayout>

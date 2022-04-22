@@ -11,3 +11,8 @@ php artisan migrate:fresh
 php artisan migrate:fresh --seed
 
 php artisan make:seeder UserSeeder
+
+# seeder
+php artisan db:seed
+ 
+php artisan db:seed --class=UserSeeder

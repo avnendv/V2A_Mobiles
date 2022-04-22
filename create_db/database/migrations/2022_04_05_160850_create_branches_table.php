@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('name',20)->unique();
+            $table->string('slug');
             $table->timestamps();
         });
     }

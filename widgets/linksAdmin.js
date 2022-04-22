@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
     const active = req._parsedUrl.pathname.split('/')[2];
-    if (active === '') {
+    if (active === '' || typeof active === 'undefined') {
         res.redirect('/admin/dashboard');
     }   
     res.locals.linksAdmin = [

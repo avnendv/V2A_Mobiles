@@ -3,7 +3,7 @@ const db = require('../config/db');
 const conn = db.getConnection();
 
 module.exports = {
-    find: (query) => {
+    find: (query, orderBy = 'updated_at', type = 'DESC') => {
         let totalPage = 0;
         // per page
         const perPage = 15;
@@ -39,7 +39,7 @@ module.exports = {
                     totalPage = Math.ceil(result.length/perPage);
                 }
             });
-            sql += ` limit ${perPage} OFFSET ${offset}`;
+            sql += ` ORDER BY ${orderBy} ${type} LIMIT ${perPage} OFFSET ${offset}`;
             conn.query(sql, (err, result) => {
                 if (err) {
                     reject(err);

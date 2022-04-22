@@ -1,3 +1,5 @@
+const urlSlug = require('url-slug');
+
 const db = require('../config/db');
 const conn = db.getConnection();
 
@@ -15,8 +17,9 @@ module.exports = {
     },
     store: (data) => {
         return new Promise((reslove, reject) => {
+            const slug = urlSlug.convert(data.branch_name);
             const sql = 'INSERT INTO branches SET ?';
-            conn.query(sql, {name: data.branch_name}, (err,result) => {
+            conn.query(sql, {name: data.branch_name, slug: slug}, (err,result) => {
                 if (err) {
                     reject(err);
                 }
@@ -26,8 +29,9 @@ module.exports = {
     },
     update: (data) => {
         return new Promise((reslove, reject) => {
-            const sql = 'UPDATE branches SET name = ? WHERE id = ?';
-            conn.query(sql, [data.branch_name, data.branch_id], (err, result) => {
+            const slug = urlSlug.convert(data.branch_name);
+            const sql = 'UPDATE branches SET ? WHERE id = ?';
+            conn.query(sql, [{name: data.branch_name, slug}, data.branch_id], (err, result) => {
                 if (err) {
                     reject(err);
                 }

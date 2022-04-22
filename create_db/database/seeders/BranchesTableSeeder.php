@@ -17,30 +17,39 @@ class BranchesTableSeeder extends Seeder
     {
         DB::table('branches')->insert([
             'name' => 'iPhone',
+            'slug' => 'iphone',
         ]);
         DB::table('branches')->insert([
             'name' => 'Xiaomi',
+            'slug' => 'xiaomi',
         ]);
         DB::table('branches')->insert([
             'name' => 'Samsung',
+            'slug' => 'samsung',
         ]);
         DB::table('branches')->insert([
             'name' => 'Realme',
+            'slug' => 'realme',
         ]);
         DB::table('branches')->insert([
             'name' => 'OnePlus',
+            'slug' => 'oneplus',
         ]);
         DB::table('branches')->insert([
             'name' => 'Rog Phone',
+            'slug' => 'rog-phone',
         ]);
         DB::table('branches')->insert([
             'name' => 'Vivo',
+            'slug' => 'vivo',
         ]);
         DB::table('branches')->insert([
             'name' => 'Nubia',
+            'slug' => 'nubia',
         ]);
         DB::table('branches')->insert([
             'name' => 'Oppo',
+            'slug' => 'oppo',
         ]);
     }
 }

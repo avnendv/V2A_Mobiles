@@ -1,8 +1,10 @@
+const urlSlug = require('url-slug');
+
 const db = require('../config/db');
 const conn = db.getConnection();
 
 module.exports = {
-    find: (query) => {
+    find: (query, orderBy = 'updated_at', type = 'DESC') => {
         let totalPage = 0;
         // per page
         const perPage = 15;
@@ -32,7 +34,7 @@ module.exports = {
                     totalPage = Math.ceil(result.length/perPage);
                 }
             });
-            sql += ` limit ${perPage} OFFSET ${offset}`;
+            sql += ` ORDER BY ${orderBy} ${type} LIMIT ${perPage} OFFSET ${offset}`;
             conn.query(sql, (err, result) => {
                 if (err) {
                     reject(err);
@@ -57,8 +59,9 @@ module.exports = {
     },
     store: (data) => {
         return new Promise((reslove, reject) => {
+            const slug = urlSlug.convert(data.branch_name);
             const sql = 'INSERT INTO phones SET ?';
-            conn.query(sql, data, (err,result) => {
+            conn.query(sql, {...data, slug}, (err,result) => {
                 if (err) {
                     reject(err);
                 }
@@ -68,8 +71,9 @@ module.exports = {
     },
     update: (data, phone_id) => {
         return new Promise((reslove, reject) => {
+            const slug = urlSlug.convert(data.branch_name);
             const sql = 'UPDATE phones SET ? WHERE id = ?';
-            conn.query(sql, [{...data, updated_at: new Date()}, phone_id], (err, result) => {
+            conn.query(sql, [{...data, slug, updated_at: new Date()}, phone_id], (err, result) => {
                 if (err) {
                     reject(err);
                 }

@@ -1,0 +1,59 @@
+<%- include('../layouts/header',{title: 'Thêm bài viết'}) %>
+<%- include('../components/script-tinymce',{id: 'content'}) %>
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <form action="" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Thêm bài viết</h4>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="title">Tiêu đề bài viết</label>
+                                    <input type="text" id="title" class="form-control" placeholder="Tiêu đề bài viết" name="title">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="imageFile">Ảnh</label>
+                                    <input type="file" id="imageFile" class="form-control" hidden>
+                                    <input type="text" id="image" name="image" class="form-control" hidden>
+                                    <div class="row">
+                                        <div class="col" style="height: 70px;">
+                                            <img id="image-preview" src="" alt="Ảnh" height="100%">
+                                        </div>
+                                        <div class="col border border-secondary" style="border-style: dotted !important;"><label class="d-flex w-100 h-100 justify-content-center align-items-center" for="imageFile">Chọn ảnh</label></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="content">Nội dung</label>
+                                    <textarea name="content" id="content" rows="15" style="width: 100%;" placeholder="Nội dung bài viết"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end px-5 mb-3">
+                        <button class="btn btn-primary" type="submit">Thêm</button>
+                        <a href="/admin/blog" class="btn btn-secondary">Hủy bỏ</a>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+<%- include('../layouts/footer') %>

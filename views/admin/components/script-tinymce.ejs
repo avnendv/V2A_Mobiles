@@ -1,0 +1,13 @@
+<script src="/back/assets/vendors/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+    selector: '#<%= id %>',
+    plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste imagetools wordcount'
+  ],
+  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  content_style: 'body { font-family: Roboto, sans-serif; font-size:14px }'
+  });
+</script>

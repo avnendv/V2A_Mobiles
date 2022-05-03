@@ -1,0 +1,99 @@
+<%- include('../layouts/header',{title: 'Câp nhật tài khoản'}) %>
+<div id="main-content">
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tài khoản
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <% if (user && user.length) { %>
+            <section class="section">
+                <form action="/admin/user/edit/<%= user[0].id %>?_method=PUT" method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Câp nhật tài khoản</h4>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="user_name">Tên tài khoản</label>
+                                        <input type="text" id="user_name" class="form-control" placeholder="Tên tài khoản" name="user_name" value="<%= user[0].user_name %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="password">Mật khẩu</label>
+                                        <input type="password" id="password" class="form-control" placeholder="Mật khẩu" name="password" value="<%= user[0].password %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="full_name">Họ tên</label>
+                                        <input type="text" id="full_name" class="form-control" placeholder="Họ tên" name="full_name" value="<%= user[0].full_name %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="birthdate">Ngày sinh</label>
+                                        <input type="date" id="birthdate" class="form-control" placeholder="Ngày sinh" name="birthdate" value="<%= user[0].birthdate %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="avatar">Avatar</label>
+                                        <input type="file" id="avatar" class="form-control" placeholder="Avatar" name="avatar" value="<%= user[0].avatar %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <img id="img" src=""  height="70px" alt="avatar">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="text" id="phone" class="form-control" placeholder="Số điện thoại" name="phone" value="<%= user[0].phone %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" class="form-control" placeholder="Số điện thoại" name="email" value="<%= user[0].email %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="address">Địa chỉ</label>
+                                        <input type="text" id="address" class="form-control" placeholder="Địa chỉ" name="address" value="<%= user[0].address %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="user_type">Loại tài khoản</label>
+                                        <select id="user_type" class="form-select" name="user_type">
+                                            <option value="">Chọn loại người dùng</option>
+                                            <% userType.forEach(type => { %>
+                                                <option value="<%= type %>" <%= user[0].user_type === type ? 'selected' : '' %> ><%= type %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end px-5 mb-3">
+                            <button class="btn btn-primary" type="submit">Cập nhật</button>
+                            <a href="/admin/user" class="btn btn-secondary">Hủy bỏ</a>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        <% } else { %>
+            <div class="text-center fst-italic text-danger">Không tìm thấy tài khoản!</div>
+        <% } %>
+    </div>
+<%- include('../layouts/footer') %>

@@ -1,0 +1,116 @@
+<%- include('../layouts/header',{title: 'Quản lý thương hiệu'}) %>
+<div id="main-content">
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-12 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Branch
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Branch</h4>
+                    <button class="btn btn-success btn-action" data-bs-toggle="modal" data-bs-target="#modalAction">Thêm</button>
+                </div>
+                <div class="table-responsive">
+                    <% if (branches && branches.length > 0) { %>
+                        <table class="table table-hover table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tên thương hiệu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% branches.forEach(branch => { %>
+                                    <tr>
+                                        <td><%= branch.id %></td>
+                                        <td><%= branch.name %></td>
+                                        <td class="text-right">
+                                            <button class="btn btn-info btn-sm btn-action" data-bs-toggle="modal" data-bs-target="#modalAction" data-action="patch" data-id="<%= branch.id %>" data-name="<%= branch.name %>">
+                                                <i class="bi bi-pencil"> </i>
+                                                Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete" data-type="branch" data-id="<%= branch.id %>">
+                                                <i class="bi bi-trash"> </i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <div class="text-danger text-center">Không có thương hiệu nào</div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </div>
+<%- include('../layouts/footer') %>
+<!-- modal delete -->
+<%- include('../components/modal-delete') %>
+<!-- Modal -->
+<div class="modal fade" id="modalAction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalActionLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form name="form-action" method="POST">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="branch_name" class="form-label">Tên thương hiệu</label>
+                    <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Nhập tên thương hiệu ...">
+                </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-info btn-submit"></button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<script>
+    const formAction = document.forms['form-action'];
+    $('#modalAction').on('show.bs.modal', function (event) {
+		const button = $(event.relatedTarget); // Button that triggered the modal
+		const id = button.data('id');
+		const name = button.data('name');
+		const action = button.data('action');
+		const modal = $(this);
+        const btnSubmit = modal.find('.btn-submit');
+        const titleSubmit = modal.find('.modal-title');
+        const valSubmit = modal.find('input[name="branch_name"]')
+		if (action && action === 'patch') {
+			titleSubmit.html('Sửa thương hiệu');
+            btnSubmit.html('Sửa đổi');
+            valSubmit.val(name);
+			btnSubmit.click((e) => {
+				e.preventDefault();
+				formAction.action = `/admin/branch/edit/${id}?_method=PATCH`;
+				formAction.submit();
+			})
+		} else {
+            titleSubmit.html('Thêm thương hiệu');
+            btnSubmit.html('Thêm');
+            valSubmit.val('');
+			btnSubmit.click((e) => {
+				e.preventDefault();
+				formAction.action = `/admin/branch/create`;
+				formAction.submit();
+			})
+        }
+	})
+</script>

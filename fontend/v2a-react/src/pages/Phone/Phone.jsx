@@ -5,6 +5,8 @@ import phoneApi from "../../api/Phone";
 import Breadcrumb from "../../components/Breadcrumb";
 import ERROR_MESSAGE from "../../constants/errors";
 import formatPrice, { options } from "../../helper/helper";
+import setLocalStorage from "../../helper/storage";
+import storage from "../../constants/storage";
 
 // Screens
 import ScreensLayout from '../Layout/Layout';
@@ -13,6 +15,10 @@ export default function Phone(){
     const params = useParams();
 
     const [data, setData] = useState(null);
+
+    const addToCart = () => {
+        setLocalStorage(storage.CART, {});;
+    }
 
     useEffect(() => {
         phoneApi.getDetail(params.slug)
@@ -57,7 +63,7 @@ export default function Phone(){
                                 </div>
                                 <div class="product-action">
                                     <div className="btn-red btnQuickOrder btnbuy"><strong>MUA NGAY</strong><span> Giao tận nhà (COD) hoặc Nhận tại cửa hàng</span></div>
-                                    <div className="add-cart btn-orange btnbuy btn-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+                                    <div className="add-cart btn-orange btnbuy btn-icon" onClick={() => addToCart()}><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
 							    </div>
                             </div>
                             <div className="col-sm-3 product-shop">

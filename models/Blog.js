@@ -11,7 +11,7 @@ module.exports = {
         // calculate offset
         const offset = ((!isNaN(page) && page || 1) - 1) * perPage;
         return new Promise((reslove, reject) => {
-            let sql = 'SELECT * FROM blog WHERE 1 = 1';
+            let sql = 'SELECT title, image, view, slug, updated_at FROM blog WHERE 1 = 1';
             if (query.id && query.id != '') {
                 sql += ' AND `id` = '+ conn.escape(parseInt(query.id));
             }
@@ -55,6 +55,20 @@ module.exports = {
             })
         })
     },
+    findBySlug: (slug) => {
+        return new Promise((reslove, reject) => {
+            const sql = 'SELECT * FROM blog WHERE slug = ?';
+            conn.query(sql, [slug], (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                // if (!result.length) {
+                //     reject('Danh sách trống!');
+                // }
+                reslove(result);
+            })
+        })
+    },
     store: (data) => {
         return new Promise((reslove, reject) => {
             const sql = 'INSERT INTO blog SET ?';
@@ -70,6 +84,17 @@ module.exports = {
         return new Promise((reslove, reject) => {
             const sql = 'UPDATE blog SET ? WHERE id = ? AND `user_id` = ?';
             conn.query(sql, [{...data, updated_at: new Date()}, id, user_id], (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                reslove(result);
+            })
+        })
+    },
+    updateView: (view, id) => {
+        return new Promise((reslove, reject) => {
+            const sql = 'UPDATE blog SET ? WHERE id = ?';
+            conn.query(sql, [{view: view}, id], (err, result) => {
                 if (err) {
                     reject(err);
                 }

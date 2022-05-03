@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,8 @@ class UsersTableSeeder extends Seeder
                 'address'=> $faker-> randomLetter() ,
                 'role_id'=> $faker->randomElement($array = array ('1','2')) ,
                 'user_type'=> $faker->randomElement($array = array ('user','admin', 'moderator')) ,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

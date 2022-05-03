@@ -11,9 +11,18 @@ module.exports.get = (req, res, next) => {
     })
 }
 module.exports.detail = (req, res, next) => {
-    Blog.findById(req.body.id)
+    Blog.findBySlug(req.params.slug)
     .then(blog => {
-        return res.json(response.createResponse(blog));
+        if (blog[0].id) {
+            let setView = blog[0].view;
+            Blog.updateView(++setView, blog[0].id)
+            .then((blogUpdate) => {
+                return res.json(response.createResponse({...blog[0], view: setView}));
+            })
+            .catch(error => {
+                return res.json(response.createError(error));        
+            })
+        }
     })
     .catch(error => {
         return res.json(response.createError(error));

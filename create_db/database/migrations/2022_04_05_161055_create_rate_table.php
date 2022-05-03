@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('ratting')->default(3);
             $table->string('comment');
             $table->integer('rate_parent')->nullable();
+            $table->unsignedBigInteger('phone_id');
+            $table->foreign('phone_id')->references('id')->on('phones');
             $table->timestamps();
         });
     }

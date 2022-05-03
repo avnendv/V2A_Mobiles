@@ -15,7 +15,7 @@ module.exports.store = (req, res, next) => {
     const data = {
         title: req.body.title,
         content: req.body.content,
-        avatar: req.body.avatar,
+        image: req.body.image,
         slug: urlSlug.convert(req.body.title),
         user_id: 1,
     }
@@ -36,7 +36,7 @@ module.exports.update = (req, res, next) => {
     const data = {
         title: req.body.title,
         content: req.body.content,
-        avatar: req.body.avatar,
+        image: req.body.image,
         slug: urlSlug.convert(req.body.title),
     }
     Blog.update(data, req.params.id, 1)

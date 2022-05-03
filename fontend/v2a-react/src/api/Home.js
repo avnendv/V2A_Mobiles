@@ -1,21 +1,19 @@
 import linkName from "../constants/linkName";
-import BaseApi from "./BaseApi"
+import axiosClient from "./axiosClient";
 
-export default class HomeApi extends BaseApi {
-    // eslint-disable-next-line no-useless-constructor
-    constructor(ctor) {
-        super(ctor);
-    }
-    getAllPhone() {
-        const url = linkName.PHONE;
-        return this.axios.get(url);
-    }
-    getPhoneByRate() {
-        const url = 'url';
-        return this.axios.get(url);
-    }
-    getPhoneByView() {
-        const url = 'url';
-        return this.axios.get(url);
+const homeApi = {
+    getTop: () => {
+        const url = linkName.HOME.TOP;
+        return axiosClient.get(url);
+    },
+    getListPhone: (params) => {
+        const url = linkName.HOME.PHONE;
+        return axiosClient.get(url, {params});
+    },
+    getBranch: () => {
+        const url = linkName.BRANCH;
+        return axiosClient.get(url);
     }
 }
+
+export default homeApi;

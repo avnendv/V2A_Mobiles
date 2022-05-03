@@ -61,4 +61,44 @@
             }
         }
     }
+    .form-search {
+        position: relative;
+        .search-list {
+            position: absolute;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 3px 6px #00000029;
+            border-radius: 14px;
+            z-index: 1;
+            .search-close {
+                text-align: end;
+                i {
+                    padding: 5px;
+                    border-radius: 50%;
+                    border: 1px solid;
+                    cursor: pointer;
+                    position: absolute;
+                    right: 15px;
+                }
+            }
+            .search-item {
+                align-items: center;
+                .search-item-img {
+                    img {
+                        height: 70px;
+                    }
+                }
+                .search-item-name {
+                    font-weight: 500;
+                    font-size: 1.2rem;
+                }
+                .search-item-price {
+                    color: #cd0000;
+                    font-size: 1.1rem;
+                }
+            }
+        }
+    }
 }

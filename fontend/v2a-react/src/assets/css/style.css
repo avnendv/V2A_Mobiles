@@ -88,6 +88,7 @@ h6 {
 .site-branding-area .btn-search {
     background-color: #72a8e6;
     width: 60px;
+    height: 100%;
 }
 .user-menu ul {
     list-style: outside none none;

@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('name', 100)->unique();
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->unsignedBigInteger('branch_id');
+            $table->integer('quantity')->default(0);
             $table->integer('price')->default(0);
+            $table->string('color');
+            $table->longText('image')->nullable();
             $table->integer('view')->default(0);
             $table->string('spec_his_camera');
             $table->string('spec_font_camera');
@@ -55,7 +58,6 @@ return new class extends Migration
             $table->string('spec_weight')->nullable();
             $table->string('spec_water_resistance')->nullable();
             $table->string('spec_other_feature')->nullable();
-            $table->string('images')->nullable();
             $table->string('slug');
             $table->text('detail');
             $table->foreign('branch_id')->references('id')->on('branches');

@@ -25,7 +25,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="phone_name">Tên điện thọai</label>
-                                        <input type="text" id="phone_name" class="form-control" placeholder="Tên điện thoại" name="name" value="<%= phone[0].phone_name %>">
+                                        <input type="text" id="phone_name" class="form-control" placeholder="Tên điện thoại" name="name" value="<%= phone[0].name %>">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -53,6 +53,32 @@
                                     <div class="form-group">
                                         <label for="price">Giá</label>
                                         <input type="number" id="price" class="form-control" placeholder="Giá" name="price" value="<%= phone[0].price %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="color">Màu sắc</label>
+                                        <fieldset class="form-group">
+                                            <select class="form-select" id="color" name="color">
+                                                <option value>--- Chọn màu sắc ---</option>
+                                                <option value="red" <%= phone[0].color === "red" ? "selected" : "" %>>Đỏ</option>
+                                                <option value="black" <%= phone[0].color === "black" ? "selected" : "" %>>Đen</option>
+                                                <option value="blue" <%= phone[0].color === "blue" ? "selected" : "" %>>Xanh</option>
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="imageFile">Ảnh</label>
+                                        <input type="file" id="imageFile" class="form-control" hidden>
+                                        <input type="text" id="image" name="image" class="form-control" hidden value="<%= phone[0].image %>">
+                                        <div class="row">
+                                            <div class="col" style="height: 70px;">
+                                                <img id="image-preview" src="<%= phone[0].image %> " alt="Ảnh" height="100%">
+                                            </div>
+                                            <div class="col border border-secondary" style="border-style: dotted !important;"><label class="d-flex w-100 h-100 justify-content-center align-items-center" for="imageFile">Chọn ảnh</label></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

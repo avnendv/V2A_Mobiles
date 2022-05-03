@@ -17,10 +17,8 @@ return new class extends Migration
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('phone_id');
-            $table->unsignedBigInteger('color_id');
             $table->integer('quantity');
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('color_id')->references('id')->on('phone_color');
             $table->foreign('phone_id')->references('id')->on('phones');
             $table->timestamps();
         });

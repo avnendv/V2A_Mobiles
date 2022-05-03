@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import 'antd/dist/antd.css';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import LinkName from "./constants/linkName";
 import PageLoader from './components/PageLoader';

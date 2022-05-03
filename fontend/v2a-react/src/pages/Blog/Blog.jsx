@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import ScreensLayout from '../Layout/Layout';
 import BlogCard from "../../components/Blog/BlogCard";
 import blogApi from "../../api/Blog";
+import { toast } from "react-toastify";
+import ERROR_MESSAGE from "../../constants/errors";
+import { options } from "../../helper/helper";
 
 export default function Blog(){
     const [listBlog, setListBlog] = useState([]);
@@ -14,6 +17,9 @@ export default function Blog(){
             if (response.result === 1) {
                 setListBlog(response.data.listBlog);
             }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
         })
     }, []);
     return(

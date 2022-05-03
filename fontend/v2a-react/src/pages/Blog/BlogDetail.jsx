@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import ScreensLayout from '../Layout/Layout';
 import blogApi from "../../api/Blog";
 import { useParams } from "react-router-dom";
-import { formatDate } from "../../helper/helper";
+import { formatDate, options } from "../../helper/helper";
+import { toast } from "react-toastify";
+import ERROR_MESSAGE from "../../constants/errors";
 
 export default function BlogDetail(){
     const params = useParams();
@@ -16,6 +18,9 @@ export default function BlogDetail(){
             if (response.result === 1) {
                 setData(response.data);
             }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
         })
     }, []);
     return(

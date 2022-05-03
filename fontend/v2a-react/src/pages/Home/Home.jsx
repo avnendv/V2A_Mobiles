@@ -6,6 +6,9 @@ import SliderTop from "../../components/SliderTop";
 import ScreensLayout from '../Layout/Layout';
 import PhoneWidgetArea from "../../components/Home/PhoneWidgetArea";
 import homeApi from "../../api/Home";
+import { toast } from "react-toastify";
+import ERROR_MESSAGE from "../../constants/errors";
+import { options } from "../../helper/helper";
 
 export default function Home(){
     const [listPhone, setListPhone] = useState([]);
@@ -24,6 +27,9 @@ export default function Home(){
                     phoneNew: topPhone.data.phoneNew,
                 })
             }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
         })
     }, []);
     return(

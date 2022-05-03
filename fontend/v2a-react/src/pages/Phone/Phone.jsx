@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import phoneApi from "../../api/Phone";
 import Breadcrumb from "../../components/Breadcrumb";
-import formatPrice from "../../helper/helper";
+import ERROR_MESSAGE from "../../constants/errors";
+import formatPrice, { options } from "../../helper/helper";
 
 // Screens
 import ScreensLayout from '../Layout/Layout';
@@ -18,6 +20,9 @@ export default function Phone(){
             if (response.result === 1) {
                 setData(response.data);
             }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
         })
     }, [params.slug]);
     return(

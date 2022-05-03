@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import homeApi from "../../api/Home";
 import phoneApi from "../../api/Phone";
 import Breadcrumb from "../../components/Breadcrumb";
 import PhoneCard from "../../components/Phone/PhoneCard";
 import PhoneFilter from "../../components/Phone/PhoneFilter";
+import ERROR_MESSAGE from "../../constants/errors";
+import { options } from "../../helper/helper";
 
 // Screens
 import ScreensLayout from '../Layout/Layout';
@@ -24,6 +27,9 @@ export default function ListPhone(){
                 setBranch(response.data?.branch_name);
             }
         })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
     }
     const getApiSearch = () => {
         const search = {
@@ -35,6 +41,9 @@ export default function ListPhone(){
             if (response.result === 1) {
                 setListPhone(response.data.listPhone);
             }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
         })
     }
     useEffect(() => {

@@ -4,8 +4,9 @@ const linkName = {
         TOP: '/top',
         PHONE: '/phone',
     },
-    REGISTER: '/dang-ki',
-    LOGIN: '/dang-nhap',
+    REGISTER: '/register',
+    LOGIN: '/login',
+    CHECK_LOGIN: '/check',
     PHONE: {
         DETAIL_INDEX: '/dien-thoai',
         DETAIL: '/dien-thoai/:slug',

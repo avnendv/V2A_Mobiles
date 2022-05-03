@@ -18,10 +18,10 @@ export default function ModalAuth(props) {
                     <Container>
                         <Row>
                             <Col>
-                                <LoginForm />
+                                <LoginForm togleModal={props.togleModal} />
                             </Col>
                             <Col>
-                                <RegisterForm />
+                                <RegisterForm togleModal={props.togleModal} />
                             </Col>
                         </Row>
                     </Container>

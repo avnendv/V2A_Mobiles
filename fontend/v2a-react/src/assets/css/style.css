@@ -1488,3 +1488,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
 .pagination>li>span {
     color: #5a88ca;
 }
+.valid-error {
+    color: #dc3545;
+    font-style: italic;
+    padding: 5px 0;
+}

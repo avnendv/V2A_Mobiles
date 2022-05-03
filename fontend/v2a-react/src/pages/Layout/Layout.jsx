@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import Footer from './Partials/Footer';
 import Header from './Partials/Header';
 
@@ -14,6 +15,7 @@ export default function ScreensLayout(props) {
         <div>
             {props.hasHeader && <Header />}
             {props.children}
+            <ToastContainer />
             {props.hasFooter && <Footer />}
         </div>
     );

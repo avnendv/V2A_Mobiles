@@ -20,8 +20,10 @@ router.get('/phone/:slug', PhoneController.detail);
 router.get('/blog', BlogController.get);
 router.get('/blog/:slug', BlogController.detail);
 //User
+router.post('/login', UserController.login);
+router.post('/register', UserController.store);
+router.post('/check', UserController.check);
 router.get('/user/detail', UserController.detail);
-router.post('/user/store', UserController.store);
 router.put('/user/update', UserController.update);
 //Cart
 router.get('/cart/view', CartController.get);

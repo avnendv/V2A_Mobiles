@@ -62,6 +62,20 @@ module.exports = {
             })
         })
     },
+    findByUser_name: (user_name) => {
+        return new Promise((reslove, reject) => {
+            const sql = 'SELECT id, user_name, password, full_name, gender, birthdate, phone, email, address FROM users WHERE user_name = ?';
+            conn.query(sql, [user_name], (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                // if (!result.length) {
+                //     reject('Danh sách trống!');
+                // }
+                reslove(result);
+            })
+        })
+    },
     store: (data) => {
         return new Promise((reslove, reject) => {
             if (data.password) {

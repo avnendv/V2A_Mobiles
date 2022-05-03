@@ -1,3 +1,5 @@
+const bcryptjs = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 const User = require('../../models/User');
 const response = require('../../requests/response');
 
@@ -46,4 +48,32 @@ module.exports.update = (req, res, next) => {
     .catch(error => {
         return res.json(response.createError(error));
     })
+}
+module.exports.login = (req, res, next) => {
+    User.findByUser_name(req.body.user_name)
+    .then(user => {
+        if (user.length) {
+            if (bcryptjs.compareSync(req.body.password, user[0].password)) {
+                const token = jwt.sign({
+                    "user_id": user[0].id,
+                    "user_name": user[0].user_name,
+                }, process.env.SECRET);
+                return res.json(response.createResponse({user: user[0], token}));
+            } else {
+                return res.json(response.createError({error: "Đăng nhập thất bại. Đã có lỗi xảy ra!"}));
+            }
+        } else {
+            return res.json(response.createError({error: "Đăng nhập thất bại. Đã có lỗi xảy ra!"}));
+        }
+    })
+}
+module.exports.check = (req, res, next) => {
+    const token = jwt.verify(req.body.token, process.env.SECRET);
+    try {
+        if (token) {
+            return res.json(response.createResponse());
+        }
+    } catch (error) {
+        return res.json(response.createError());
+    }
 }

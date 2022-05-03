@@ -1,0 +1,148 @@
+.cartContainer {
+    padding: 8vh 5vh;
+}
+
+.cartTable {
+    text-align: center;
+}
+
+.cartTable th,
+td {
+    border: 1px solid #ccc;
+    border-bottom-width: 1px;
+}
+
+.cartTable th {
+    font-size: 1.2rem;
+    font-weight: 400;
+    background-color: rgb(234, 232, 232);
+}
+
+.cartTable th:hover {
+    background-color: rgb(243, 241, 241);
+}
+
+.hiddenText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.delete {
+    cursor: pointer;
+    color: #799dd9;
+    font-size: 1rem;
+}
+
+.delete:hover {
+    color: #2772f3;
+}
+
+.cartTable td {
+    height: 80px;
+    line-height: 80px;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.cartTable td:hover {
+    background-color: rgb(234, 233, 233);
+}
+
+.productAvatar {
+    height: 80px;
+    width: 60px;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0 0 10px -5px #000;
+    border-radius: 3px;
+}
+
+.productAvatar img {
+    width: 100%;
+}
+
+.productAvatar img:hover {
+    transform: scale(1.25);
+}
+
+.adjustProductQuantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100% !important;
+}
+
+.customIcon {
+    color: #799dd9;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.customIcon .iconChild {
+    font-size: 1.8rem;
+}
+
+.customIcon:hover {
+    opacity: 0.8;
+}
+
+.productQuantity {
+    text-align: center;
+    border: 1px solid #799dd9 !important;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    color: #2a70eb;
+    outline: none;
+}
+
+.payment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total {
+    padding: 8px 0px;
+}
+
+.pay {
+    padding: 8px 24px;
+    background-color: #fff;
+    border: 1px solid #799dd9;
+    color: #799dd9;
+    transition: .5s ease;
+    width: 200px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0 0 4px 0px #799dd9;
+}
+
+.pay:hover {
+    background-color: #799dd9;
+    color: #fff;
+}
+
+@media (min-width: 1024px) {
+    .cartContainer {
+        padding: 8vh 128px;
+    }
+}
+
+@media (max-width: 576px) {
+    .payment {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 320px) {
+    .payment {
+        flex-direction: column;
+    }
+    .pay {
+        width: 100%;
+    }
+}

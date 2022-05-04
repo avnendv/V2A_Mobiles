@@ -1,31 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import ScreensLayout from "../Layout/Layout";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
 import formatPrice from "../../helper/helper";
+import storage from "../../constants/storage";
+import setLocalStorage, { getLocalStorage } from "../../helper/storage";
 
 const Cart = () => {
-    const [products, setProducts] = useState([
-        {
-            avatar: ``,
-            name: "ship your idea",
-            price: "15000",
-            quantity: 1,
-        },
-        {
-            avatar: ``,
-            name: "ship your idea",
-            price: "20000",
-            quantity: 3,
-        },
-        {
-            avatar: ``,
-            name: "ship your idea",
-            price: "25000",
-            quantity: 10,
-        },
-    ]);
+    const [products, setProducts] = useState(getLocalStorage(storage.CART)?.cart || []);
     const handleDeleteProduct = (index) => {
         products.splice(index, 1);
         setProducts([...products]);
@@ -36,16 +19,20 @@ const Cart = () => {
             products.forEach(product => {
                 sum += product.quantity * product.price;
             });
-        } else sum = 0
+        } else sum = 0;
         return formatPrice(sum)
-    }
+    };
+    useEffect(() => {
+        setLocalStorage(storage.CART, {cart: products});
+    }, [products]);
+
     return (
         <ScreensLayout>
             <div className="cartContainer">
                 <Table className="cartTable" responsive borderless>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th></th>
                             <th></th>
                             <th>Tên điện thoại</th>
                             <th>Giá</th>
@@ -55,14 +42,14 @@ const Cart = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length > 0 ? (
+                        {products?.length > 0 ? (
                             products.map((product, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>
                                             <div className="productAvatar">
-                                                <img src={product.avatar} alt="avatar" />
+                                                <img src={product.image} alt="avatar" />
                                             </div>
                                         </td>
                                         <td>

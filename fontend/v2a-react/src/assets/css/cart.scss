@@ -125,7 +125,43 @@ td {
     background-color: #799dd9;
     color: #fff;
 }
-
+.orders {
+    .card-order {
+        background: #fff 0% 0% no-repeat padding-box;
+        box-shadow: 0 4px 6px #00000029;
+        border-radius: 8px;
+        padding: 10px 15px;
+        .card-order-item {
+            img {
+                height: 120px;
+            }
+            .delete-card {
+                color: #fd475a;
+                text-align: end;
+                svg {
+                    cursor: pointer;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+            }
+            .phone-info {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                .phone-name {
+                    font-weight: 500;
+                    font-size: 20px;
+                    padding-right: 5px;
+                }
+                .phone-price {
+                    font-style: italic;
+                    color: #fd475a;
+                }
+            }
+        }
+    }
+}
 @media (min-width: 1024px) {
     .cartContainer {
         padding: 8vh 128px;

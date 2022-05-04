@@ -4,12 +4,15 @@ import { Nav, Navbar, Container, InputGroup, Button, FormControl } from 'react-b
 import linkName from '../constants/linkName';
 import homeApi from '../api/Home';
 import SearchItem from './SearchItem';
+import { getLocalStorage } from '../helper/storage';
+import storage from '../constants/storage';
 
 export default function NavBar(props) {
     const [branches, setBranches] = useState([]);
     const [searchValue, setSearchValue] = useState(null);
     const [isShow, setIsShow] = useState(false);
     const [data, setData] = useState(null);
+    const [countCart, setCountCart] = useState(0);
 
     const getApiSearch = (value) => {
         const search = {
@@ -36,7 +39,13 @@ export default function NavBar(props) {
             getApiSearch(searchValue);
             setIsShow(true);
         }
-    }, [searchValue])
+    }, [searchValue]);
+    useEffect(() => {
+        if (getLocalStorage(storage.CART)?.cart) {
+            setCountCart(getLocalStorage(storage.CART)?.cart?.length);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getLocalStorage(storage.CART)?.cart]);
     return (
         <>
             <div className="site-branding-area">
@@ -63,7 +72,7 @@ export default function NavBar(props) {
                         <div className="col-sm-2">
                             <div className="shopping-item">
                                 <Link to={linkName.CART}>
-                                    <i className="fa fa-shopping-cart"></i> <span className="product-count">5</span>
+                                    <i className="fa fa-shopping-cart"></i> <span className="product-count">{countCart}</span>
                                 </Link>
                             </div>
                         </div>

@@ -533,7 +533,7 @@ h6 {
     transition: .4s;
 }
 
-.product-hover a {
+.product-hover a, .product-hover .add-to-cart-link {
     background: none repeat scroll 0 0 #5a88ca;
     border-radius: 5px;
     color: #fff;
@@ -551,10 +551,12 @@ h6 {
     transition: .4s;
 }
 
-.product-hover a:hover {
+.product-hover a:hover, .product-hover .add-to-cart-link:hover {
     background: #000;
     text-decoration: none;
     border-color: #444;
+    cursor: pointer;
+    color: #1725a7;
 }
 
 .product-carousel-price ins {
@@ -568,7 +570,7 @@ h6 {
     margin-right: 5px;
 }
 
-.product-hover a.add-to-cart-link {
+.product-hover .add-to-cart-link {
     top: -25%;
 }
 
@@ -597,7 +599,7 @@ h6 {
     overflow: hidden;
 }
 
-.single-product:hover .product-hover a.add-to-cart-link {
+.single-product:hover .product-hover .add-to-cart-link {
     top: 30%;
 }
 

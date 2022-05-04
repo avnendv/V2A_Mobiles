@@ -1,5 +1,5 @@
 const formatPrice = (price) => {
-    return (new Intl.NumberFormat('en-IN').format(price)) + ' đ';
+    return (new Intl.NumberFormat().format(price)) + ' đ';
 }
 
 export const formatDate = (date) => {

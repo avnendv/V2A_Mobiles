@@ -16,6 +16,7 @@ const linkName = {
     BRANCH: '/branch',
     CART: '/gio-hang',
     ORDER: '/dat-hang',
+    ORDER_INDEX: '/order',
     BLOG: {
         LIST_INDEX: '/blog',
         LIST: '/bai-viet',

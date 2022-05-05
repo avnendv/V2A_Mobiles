@@ -8,7 +8,7 @@ module.exports.get = (req, res, next) => {
         return res.json(response.createResponse(branches));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }
 module.exports.listPhone = (req, res, next) => {
@@ -20,6 +20,6 @@ module.exports.listPhone = (req, res, next) => {
         }));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }

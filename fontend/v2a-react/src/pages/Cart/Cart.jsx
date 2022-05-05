@@ -6,6 +6,8 @@ import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
 import formatPrice from "../../helper/helper";
 import storage from "../../constants/storage";
 import setLocalStorage, { getLocalStorage } from "../../helper/storage";
+import { Link } from "react-router-dom";
+import linkName from "../../constants/linkName";
 
 const Cart = () => {
     const [products, setProducts] = useState(getLocalStorage(storage.CART)?.cart || []);
@@ -125,9 +127,9 @@ const Cart = () => {
                 <hr className="my-4" />
                 <div className="payment">
                     <div className="total">Tổng tiền: {totalPrice(products)}</div>
-                    <div type="submit" onClick={() => { console.log('product selected: ', products); }} className="pay">
+                    <Link to={linkName.ORDER} className="pay">
                         Thanh toán
-                    </div>
+                    </Link>
                 </div>
             </div>
         </ScreensLayout>

@@ -27,7 +27,7 @@ module.exports.store = (req, res, next) => {
         return res.json(response.createResponse(user));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }
 module.exports.update = (req, res, next) => {
@@ -46,7 +46,7 @@ module.exports.update = (req, res, next) => {
         return res.json(response.createResponse(user));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }
 module.exports.login = (req, res, next) => {

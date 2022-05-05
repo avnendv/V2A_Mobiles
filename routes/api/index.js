@@ -7,6 +7,7 @@ const PhoneController = require('../../controllers/api/PhoneController');
 const BlogController = require('../../controllers/api/BlogController');
 const UserController = require('../../controllers/api/UserController');
 const CartController = require('../../controllers/api/CartController');
+const OrderController = require('../../controllers/api/OrderController');
 
 //Home
 router.get('/top', HomeController.viewTop);
@@ -30,4 +31,6 @@ router.get('/cart/view', CartController.get);
 router.put('/cart/update', CartController.update);
 router.delete('/cart/delete', CartController.delete);
 router.delete('/cart/destroy', CartController.destroy);
+//Order
+router.post('/order', OrderController.createPaymentUrl);
 module.exports = router;

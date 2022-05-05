@@ -6,9 +6,12 @@ import { Button, Form } from "react-bootstrap";
 import ScreensLayout from "../Layout/Layout";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
-import formatPrice from "../../helper/helper";
+import formatPrice, { options } from "../../helper/helper";
 import storage from "../../constants/storage";
 import setLocalStorage, { getLocalStorage } from "../../helper/storage";
+import orderApi from "../../api/Order";
+import { toast } from "react-toastify";
+import ERROR_MESSAGE from "../../constants/errors";
 
 const schema = yup.object({
     full_name: yup.string().trim()
@@ -18,7 +21,8 @@ const schema = yup.object({
     .required("Số điện thoại không được để trống")
     .matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]+$/im, "Số điện thoại không đúng định dạng"),
     address: yup.string().trim()
-    .required("Địa chỉ không được để trống")
+    .required("Địa chỉ không được để trống"),
+    notes: yup.string().max(100, "Ghi chú không được quá 100 ký tự"),
 }).required();
 
 const Pay = () => {
@@ -26,7 +30,21 @@ const Pay = () => {
     const { register, handleSubmit, formState:{ errors } } = useForm({
         resolver: yupResolver(schema)
       });
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        orderApi.createOrder({data, products})
+        .then(response => {
+            if (response.result === 1) {
+                if (response.data?.vnpUrl) {
+                    window.location.href = response.data.vnpUrl;
+                    return;
+                }
+                toast.success('Bạn đã đặt hàng thành công!', options);
+            }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
+    };
     const handleDeleteProduct = (index) => {
         products.splice(index, 1);
         setProducts([...products]);
@@ -149,13 +167,13 @@ const Pay = () => {
                                     <Form.Check 
                                         type="radio"
                                         label="Thanh toán bằng VNPAY"
-                                        name="payment"
+                                        {...register("payment")}
                                         value={1}
                                     />
                                     <Form.Check 
                                         type="radio"
                                         label="Thanh toán COD"
-                                        name="payment"
+                                        {...register("payment")}
                                         value={0}
                                         defaultChecked
                                     />

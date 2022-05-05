@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('phone');
             $table->string('address');
+            $table->tinyInteger('payment')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

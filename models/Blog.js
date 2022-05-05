@@ -72,7 +72,7 @@ module.exports = {
     store: (data) => {
         return new Promise((reslove, reject) => {
             const sql = 'INSERT INTO blog SET ?';
-            conn.query(sql, data, (err,result) => {
+            conn.query(sql, {...data, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                 if (err) {
                     reject(err);
                 }

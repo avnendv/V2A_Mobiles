@@ -7,7 +7,7 @@ module.exports.get = (req, res, next) => {
         return res.json(response.createResponse(phones));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }
 module.exports.detail = (req, res, next) => {
@@ -25,6 +25,6 @@ module.exports.detail = (req, res, next) => {
         }
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }

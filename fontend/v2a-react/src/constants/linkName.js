@@ -16,6 +16,9 @@ const linkName = {
     BRANCH: '/branch',
     CART: '/gio-hang',
     ORDER: '/dat-hang',
+    ORDER_INDEX: '/order',
+    ORDER_RETURN: '/dat-hang/ket-qua',
+    ABOUT: 'gioi-thieu',
     BLOG: {
         LIST_INDEX: '/blog',
         LIST: '/bai-viet',

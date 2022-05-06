@@ -19,7 +19,7 @@ module.exports = {
         return new Promise((reslove, reject) => {
             const slug = urlSlug.convert(data.branch_name);
             const sql = 'INSERT INTO branches SET ?';
-            conn.query(sql, {name: data.branch_name, slug: slug}, (err,result) => {
+            conn.query(sql, {name: data.branch_name, slug: slug, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                 if (err) {
                     reject(err);
                 }
@@ -31,7 +31,7 @@ module.exports = {
         return new Promise((reslove, reject) => {
             const slug = urlSlug.convert(data.branch_name);
             const sql = 'UPDATE branches SET ? WHERE id = ?';
-            conn.query(sql, [{name: data.branch_name, slug}, data.branch_id], (err, result) => {
+            conn.query(sql, [{name: data.branch_name, slug, created_at: new Date(), updated_at: new Date()}, data.branch_id], (err, result) => {
                 if (err) {
                     reject(err);
                 }

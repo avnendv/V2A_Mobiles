@@ -56,21 +56,41 @@ module.exports = {
     },
     store: (data) => {
         return new Promise((reslove, reject) => {
-            const sql = 'INSERT INTO orders SET ?';
-            const orders = data.orders;
-            conn.query(sql, {...orders}, (err,result) => {
+            conn.beginTransaction((error) => {
+                if (error) reject(error);
+                const sql = 'INSERT INTO orders SET ?';
+                const orders = data.orders;
+                conn.query(sql, {...orders, created_at: new Date(), updated_at: new Date()}, (err,result) => {
+                    if (err) {
+                        return connection.rollback(function() {
+                            reject(err);
+                        })
+                    }
+                    const sqlDetail = 'INSERT INTO order_detail (order_id, phone_id, quantity) VALUES ?';
+                    const values = [];
+                    data.orderItems.forEach(element => {
+                        values.push([result.insertId, ...element]);
+                    });
+                    conn.query(sqlDetail, [values], function (er, rs) {
+                        if (er) {
+                            return connection.rollback(function() {
+                                reject(er);
+                            });
+                        }
+                        reslove(result.insertId);
+                    });
+                })
+            });
+        })
+    },
+    update: (data, id) => {
+        return new Promise((reslove, reject) => {
+            const sql = 'UPDATE orders SET ? WHERE id = ?';
+            conn.query(sql, [{...data, updated_at: new Date()}, id], (err, result) => {
                 if (err) {
                     reject(err);
                 }
-                const sqlDetail = 'INSERT INTO order_detail (order_id, phone_id, quantity) VALUES ?';
-                const values = [];
-                data.orderItems.forEach(element => {
-                    values.push([result.insertId, ...element]);
-                });
-                conn.query(sqlDetail, [values], function (er, rs) {
-                    if (er) reject(er);
-                    reslove(result.insertId);
-                });
+                reslove(result);
             })
         })
     },

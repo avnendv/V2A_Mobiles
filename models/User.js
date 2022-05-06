@@ -86,7 +86,7 @@ module.exports = {
             }
             const sql = 'INSERT INTO users SET ?';
             // Re-assign password hashed
-            conn.query(sql, data, (err,result) => {
+            conn.query(sql, {...data, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                 if (err) {
                     reject(err);
                 }

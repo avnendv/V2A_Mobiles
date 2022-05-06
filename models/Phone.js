@@ -80,7 +80,7 @@ module.exports = {
         return new Promise((reslove, reject) => {
             const slug = urlSlug.convert(data.name);
             const sql = 'INSERT INTO phones SET ?';
-            conn.query(sql, {...data, slug}, (err,result) => {
+            conn.query(sql, {...data, slug, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                 if (err) {
                     reject(err);
                 }

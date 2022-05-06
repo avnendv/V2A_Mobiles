@@ -20,11 +20,11 @@ module.exports.detail = (req, res, next) => {
                 return res.json(response.createResponse({...blog[0], view: setView}));
             })
             .catch(error => {
-                return res.json(response.createError(error));        
+                return res.json(response.createError());        
             })
         }
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }

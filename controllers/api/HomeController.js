@@ -13,6 +13,6 @@ module.exports.viewTop = (req, res, next) => {
         }));
     })
     .catch(error => {
-        return res.json(response.createError(error));
+        return res.json(response.createError());
     })
 }

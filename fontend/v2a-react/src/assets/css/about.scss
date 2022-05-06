@@ -1,0 +1,262 @@
+.container-fruid {
+    width: 100%;
+    height: auto;
+}
+
+.slider {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.slider .sliderBanner {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slider .sliderBanner img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.slider .sliderTitle {
+    position: absolute;
+    margin: auto;
+    font-size: 32px;
+    color: #d3b673;
+    letter-spacing: 1.8px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.cups {
+    max-width: 90%;
+    height: auto;
+    margin: auto;
+    margin-top: 54px;
+    align-items: center;
+    justify-content: center;
+}
+
+.cups-title {
+    max-width: 92%;
+    height: 4%;
+    margin-bottom: 30px;
+    font-size: 30px !important;
+    font-weight: 900;
+    margin-top: 32px;
+}
+
+.cups-intro {
+    width: 90%;
+    font-size: 120%;
+    line-height: 150%;
+    margin-bottom: 2%;
+}
+
+.cups-contents {
+    max-width: 95%;
+    height: auto;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cups-contents img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    box-shadow: 0 0 4px 0px;
+}
+
+.btn-delivery {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    bottom: 2%;
+    right: 1%;
+    cursor: pointer;
+    z-index: 200000 !important;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    -webkit-transition: visibility 1s;
+    -moz-transition: visibility 1s;
+    -o-transition: visibility 1s;
+    transition: visibility 1s;
+}
+
+.btn-delivery img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    -webkit-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+    -moz-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+    -ms-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+    -o-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+    animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+}
+
+@-moz-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+}
+
+@-webkit-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+}
+
+@-o-keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+}
+
+@keyframes coccoc-alo-circle-img-anim {
+    0% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    10% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    20% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    30% {
+        transform: rotate(-25deg) scale(1) skew(1deg);
+    }
+
+    40% {
+        transform: rotate(25deg) scale(1) skew(1deg);
+    }
+
+    50% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+
+    100% {
+        transform: rotate(0) scale(1) skew(1deg);
+    }
+}
+
+@media only screen and (max-width: 840px) {
+    .footer {
+        height: 800px !important;
+        background-size: cover;
+        width: 100%;
+    }
+
+    .footer-logo {
+        margin-left: 8%;
+        width: 40%;
+        height: 20%;
+    }
+
+    footer-1 {
+        width: 50% !important;
+    }
+
+    .footer-2 {
+        padding-left: 10%;
+    }
+}

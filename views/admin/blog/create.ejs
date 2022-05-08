@@ -15,6 +15,11 @@
                 </div>
             </div>
         </div>
+        <% if (typeof errors !== 'undefined') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">Đã có lỗi xảy ra! Vui lòng nhập đủ dữ liệu! 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
         <section class="section">
             <form action="" method="post">
                 <div class="card">

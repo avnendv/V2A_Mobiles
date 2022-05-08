@@ -124,13 +124,16 @@ const Cart = () => {
                         )}
                     </tbody>
                 </Table>
-                <hr className="my-4" />
-                <div className="payment">
-                    <div className="total">Tổng tiền: {totalPrice(products)}</div>
-                    <Link to={linkName.ORDER} className="pay">
-                        Thanh toán
-                    </Link>
-                </div>
+                {(products.length > 0) &&
+                <>
+                    <hr className="my-4" />
+                    <div className="payment">
+                        <div className="total">Tổng tiền: {totalPrice(products)}</div>
+                        {(products || products.length) && <Link to={linkName.ORDER} className="pay">
+                            Thanh toán
+                        </Link>}
+                    </div>
+                </>}
             </div>
         </ScreensLayout>
     );

@@ -13,12 +13,16 @@ const schema = yup.object({
     .max(25, "Tên đăng nhập không được quá 25 ký tự")    
     .required("Tên đăng nhập không được để trống"),
     password: yup.string().trim()
+    .min(8, "Mật khẩu ít nhất phải có 8 ký tự")
     .max(15, "Mật khẩu không được quá 15 ký tự")
     .required("Mật khẩu không được để trống"),
     full_name: yup.string().trim()
     .required("Họ tên không được để trống"),
     gender: yup.number().typeError("Giới tính không được để trống")
     .required("Giới tính không được để trống"),
+    email: yup.string().trim()
+    .required("Email không được để trống")
+    .email("Email không đúng định dạng"),
     birthdate: yup.date().typeError("Ngày sinh không được để trống"),
     phone: yup.string().trim()
     .max(15, "Số điện thoại không được quá 15 ký tự")

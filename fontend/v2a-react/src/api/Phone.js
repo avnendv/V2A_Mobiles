@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 
 const phoneApi = {
     getList: (params) => {
-        const url = linkName.PHONE.BRANCH;
+        const url = linkName.HOME.PHONE;
         return axiosClient.get(url, {params});
     },
     getListBranch: (slug) => {
@@ -13,6 +13,14 @@ const phoneApi = {
     getDetail: (slug) => {
         const url = linkName.HOME.PHONE + `/${slug}`;
         return axiosClient.get(url);
+    },
+    createRatting: (params) => {
+        const url = '/rate/create';
+        return axiosClient.post(url, params);
+    },
+    getRatting: (params) => {
+        const url = '/rate';
+        return axiosClient.get(url, {params});
     },
 }
 

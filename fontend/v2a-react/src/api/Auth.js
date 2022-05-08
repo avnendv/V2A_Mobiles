@@ -14,6 +14,14 @@ const authApi = {
         const url = linkName.REGISTER;
         return axiosClient.post(url, params);
     },
+    detail: (params) => {
+        const url = linkName.USER_DETAIL_INDEX;
+        return axiosClient.get(url, {params});
+    },
+    update: (params) => {
+        const url = linkName.USER_INFO_INDEX;
+        return axiosClient.put(url, params);
+    },
 }
 
 export default authApi;

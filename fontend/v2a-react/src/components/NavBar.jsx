@@ -69,7 +69,12 @@ export default function NavBar(props) {
                             </InputGroup>
                             {isShow && <SearchItem data={data} setIsShow={setIsShow} />}
                         </div>
-                        <div className="col-sm-2">
+                        <div className="col-sm-2 d-flex justify-content-around">
+                            <div className="shopping-item">
+                                <Link to={linkName.ORDER_CHECK}>
+                                    <i className="fa fa-truck"></i>
+                                </Link>
+                            </div>
                             <div className="shopping-item">
                                 <Link to={linkName.CART}>
                                     <i className="fa fa-shopping-cart"></i> <span className="product-count">{countCart}</span>
@@ -95,7 +100,7 @@ export default function NavBar(props) {
                                 <Link to={linkName.PHONE.BRANCH_INDEX + `/${branches[0]?.slug}`} className='nav-link'>{branches[0]?.name}</Link>
                                 <Link to={linkName.PHONE.BRANCH_INDEX + `/${branches[1]?.slug}`} className='nav-link'>{branches[1]?.name}</Link>
                                 <Link to={linkName.PHONE.BRANCH_INDEX + `/${branches[2]?.slug}`} className='nav-link'>{branches[2]?.name}</Link>
-                                <Link to={linkName.BLOG.LIST} className='nav-link'>Bài viết</Link>
+                                <Link to={linkName.BLOG.LIST} className='nav-link'>Tin tức</Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>

@@ -14,6 +14,7 @@ module.exports.login = (req, res, next) => {
                 if (user.listUser[0].user_type === 'user') {
                     return res.render('admin/auth/login', error);        
                 }
+                req.session.admin = user.listUser[0];
                 return res.redirect('/admin/dashboard');
             }
             return res.render('admin/auth/login', error);
@@ -21,3 +22,7 @@ module.exports.login = (req, res, next) => {
         return res.render('admin/auth/login', error);
     })
 };
+module.exports.logout = (req, res, next) => {
+    req.session.destroy(function (err) {});
+    res.redirect('/admin/login');
+}

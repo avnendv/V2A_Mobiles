@@ -15,9 +15,12 @@
                 </div>
             </div>
         </div>
-        <% if (phone && phone.length) { %>
-            <section class="section">
-                <form action="/admin/phone/edit/<%= phone[0].id %>?_method=PUT" method="post">
+        <section class="section">
+            <% if (phone && phone.length) { %>
+                <% if (typeof old === 'undefined') {
+                    old = phone[0];
+                } %>
+                <form action="/admin/phone/edit/<%= old.id %>?_method=PUT" method="post">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Chỉnh sửa điện thoại</h4>
@@ -25,13 +28,16 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="phone_name">Tên điện thọai</label>
-                                        <input type="text" id="phone_name" class="form-control" placeholder="Tên điện thoại" name="name" value="<%= phone[0].name %>">
+                                        <input type="text" id="phone_name" class="form-control" placeholder="Tên điện thoại" name="name" value="<%= typeof old !== 'undefined' ? old.name : "" %>">
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.name !== 'undefined' ? errors.name : "") : "" %> </p>
+    
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="parent_id">Điện thoại cùng loại</label>
-                                        <input type="text" id="parent_id" class="form-control" placeholder="Điện thoại cùng loại" name="parent_id" value="<%= phone[0].parent_id %>">
+                                        <input type="text" id="parent_id" class="form-control" placeholder="Điện thoại cùng loại" name="parent_id" value="<%= typeof old !== 'undefined' ? old.parent_id : "" %>">
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.parent_id !== 'undefined' ? errors.parent_id : "") : "" %> </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -42,17 +48,19 @@
                                                 <option value>--- Chọn thương hiệu ---</option>
                                                 <% if (branches && branches.length) { %>
                                                     <% branches.forEach(branch => { %>
-                                                        <option value="<%= branch.id %>" <%= branch.id === phone[0].branch_id ? 'selected' : '' %>><%= branch.name %></option>
+                                                        <option value="<%= branch.id %>" <%= typeof old !== 'undefined' ? (old.branch_id == branch.id ? "selected" : "") : "" %> ><%= branch.name %></option>
                                                     <% }) %>
                                                 <% } %>
                                             </select>
                                         </fieldset>
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.branch_id !== 'undefined' ? errors.branch_id : "") : "" %> </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="price">Giá</label>
-                                        <input type="number" id="price" class="form-control" placeholder="Giá" name="price" value="<%= phone[0].price %>">
+                                        <input type="number" id="price" class="form-control" placeholder="Giá" name="price" value="<%= typeof old !== 'undefined' ? old.price : "" %>">
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.price !== 'undefined' ? errors.price : "") : "" %> </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -61,24 +69,26 @@
                                         <fieldset class="form-group">
                                             <select class="form-select" id="color" name="color">
                                                 <option value>--- Chọn màu sắc ---</option>
-                                                <option value="red" <%= phone[0].color === "red" ? "selected" : "" %>>Đỏ</option>
-                                                <option value="black" <%= phone[0].color === "black" ? "selected" : "" %>>Đen</option>
-                                                <option value="blue" <%= phone[0].color === "blue" ? "selected" : "" %>>Xanh</option>
+                                                <option value="red" <%= typeof old !== 'undefined' ? (old.color == "red" ? "selected" : "") : "" %>>Đỏ</option>
+                                                <option value="black" <%= typeof old !== 'undefined' ? (old.color == "black" ? "selected" : "") : "" %>>Đen</option>
+                                                <option value="blue" <%= typeof old !== 'undefined' ? (old.color == "blue" ? "selected" : "") : "" %>>Xanh</option>
                                             </select>
                                         </fieldset>
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.color !== 'undefined' ? errors.color : "") : "" %> </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="imageFile">Ảnh</label>
                                         <input type="file" id="imageFile" class="form-control" hidden>
-                                        <input type="text" id="image" name="image" class="form-control" hidden value="<%= phone[0].image %>">
+                                        <input type="text" id="image" name="image" class="form-control" hidden value="<%= typeof old !== 'undefined' ? old.image : "" %>">
                                         <div class="row">
                                             <div class="col" style="height: 70px;">
-                                                <img id="image-preview" src="<%= phone[0].image %> " alt="Ảnh" height="100%">
+                                                <img id="image-preview" src="<%= old.image %>" alt="Ảnh" height="100%">
                                             </div>
                                             <div class="col border border-secondary" style="border-style: dotted !important;"><label class="d-flex w-100 h-100 justify-content-center align-items-center" for="imageFile">Chọn ảnh</label></div>
                                         </div>
+                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.image !== 'undefined' ? errors.image : "") : "" %> </p>
                                     </div>
                                 </div>
                             </div>
@@ -95,31 +105,36 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_screen_size">Kích thước màn hình</label>
-                                                        <input type="text" id="spec_screen_size" class="form-control" placeholder="Kích thước màn hình" name="spec_screen_size" value="<%= phone[0].spec_screen_size %>">
+                                                        <input type="text" id="spec_screen_size" class="form-control" placeholder="Kích thước màn hình" name="spec_screen_size" value="<%= typeof old !== 'undefined' ? old.spec_screen_size : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_screen_size !== 'undefined' ? errors.spec_screen_size : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_screen_ratio">Tỷ lệ màn hình</label>
-                                                        <input type="text" id="spec_screen_ratio" class="form-control" placeholder="Tỷ lệ màn hình" name="spec_screen_ratio" value="<%= phone[0].spec_screen_ratio %>">
+                                                        <input type="text" id="spec_screen_ratio" class="form-control" placeholder="Tỷ lệ màn hình" name="spec_screen_ratio" value="<%= typeof old !== 'undefined' ? old.spec_screen_ratio : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_screen_ratio !== 'undefined' ? errors.spec_screen_ratio : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_screen_tech">Công nghệ màn hình</label>
-                                                        <input type="text" id="spec_screen_tech" class="form-control" placeholder="Công nghệ màn hình" name="spec_screen_tech" value="<%= phone[0].spec_screen_tech %>">
+                                                        <input type="text" id="spec_screen_tech" class="form-control" placeholder="Công nghệ màn hình" name="spec_screen_tech" value="<%= typeof old !== 'undefined' ? old.spec_screen_tech : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_screen_tech !== 'undefined' ? errors.spec_screen_tech : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_screen_resolution">Độ phân giải màn hình</label>
-                                                        <input type="text" id="spec_screen_resolution" class="form-control" name="spec_screen_resolution" placeholder="Độ phân giải màn hình" value="<%= phone[0].spec_screen_resolution %>">
+                                                        <input type="text" id="spec_screen_resolution" class="form-control" name="spec_screen_resolution" placeholder="Độ phân giải màn hình" value="<%= typeof old !== 'undefined' ? old.spec_screen_resolution : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_screen_resolution !== 'undefined' ? errors.spec_screen_resolution : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_screen_protector">Kính bảo vệ màn hình</label>
-                                                        <input type="text" id="spec_screen_protector" class="form-control" name="spec_screen_protector" placeholder="Kính bảo vệ màn hình" value="<%= phone[0].spec_screen_protector %>">
+                                                        <input type="text" id="spec_screen_protector" class="form-control" name="spec_screen_protector" placeholder="Kính bảo vệ màn hình" value="<%= typeof old !== 'undefined' ? old.spec_screen_protector : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_screen_protector !== 'undefined' ? errors.spec_screen_protector : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,25 +151,29 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_his_screen_lens_num">Số ống kính</label>
-                                                        <input type="text" id="spec_his_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_his_screen_lens_num" value="<%= phone[0].spec_his_screen_lens_num %>">
+                                                        <input type="text" id="spec_his_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_his_screen_lens_num" value="<%= typeof old !== 'undefined' ? old.spec_his_screen_lens_num : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_his_screen_lens_num !== 'undefined' ? errors.spec_his_screen_lens_num : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_his_camera">Độ phân giải & khẩu độ</label>
-                                                        <input type="text" id="spec_his_camera" name="spec_his_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= phone[0].spec_his_camera %>">
+                                                        <input type="text" id="spec_his_camera" name="spec_his_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= typeof old !== 'undefined' ? old.spec_his_camera : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_his_camera !== 'undefined' ? errors.spec_his_camera : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_his_screen_record">Quay phim camera sau</label>
-                                                        <input type="text" id="spec_his_screen_record" class="form-control" placeholder="Quay phim camera sau" name="spec_his_screen_record" value="<%= phone[0].spec_his_screen_record %>">
+                                                        <input type="text" id="spec_his_screen_record" class="form-control" placeholder="Quay phim camera sau" name="spec_his_screen_record" value="<%= typeof old !== 'undefined' ? old.spec_his_screen_record : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_his_screen_record !== 'undefined' ? errors.spec_his_screen_record : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_his_screen_feature">Các tính năng khác camera sau</label>
-                                                        <input type="text" id="spec_his_screen_feature" class="form-control" name="spec_his_screen_feature" placeholder="Các tính năng khác camera sau">
+                                                        <input type="text" id="spec_his_screen_feature" class="form-control" name="spec_his_screen_feature" placeholder="Các tính năng khác camera sau" value="<%= typeof old !== 'undefined' ? old.spec_his_screen_feature : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_his_screen_feature !== 'undefined' ? errors.spec_his_screen_feature : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,25 +190,29 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_font_screen_lens_num">Số ống kính</label>
-                                                        <input type="text" id="spec_font_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_font_screen_lens_num" value="<%= phone[0].spec_font_screen_lens_num %>">
+                                                        <input type="text" id="spec_font_screen_lens_num" class="form-control" placeholder="Số ống kính" name="spec_font_screen_lens_num" value="<%= typeof old !== 'undefined' ? old.spec_font_screen_lens_num : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_font_screen_lens_num !== 'undefined' ? errors.spec_font_screen_lens_num : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_font_camera">Độ phân giải & khẩu độ</label>
-                                                        <input type="text" id="spec_font_camera" name="spec_font_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= phone[0].spec_font_camera %>">
+                                                        <input type="text" id="spec_font_camera" name="spec_font_camera" class="form-control" placeholder="Độ phân giải & khẩu độ" value="<%= typeof old !== 'undefined' ? old.spec_font_camera : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_font_camera !== 'undefined' ? errors.spec_font_camera : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_font_screen_record">Quay phim camera trước</label>
-                                                        <input type="text" id="spec_font_screen_record" class="form-control" placeholder="Quay phim camera trước" name="spec_font_screen_record" value="<%= phone[0].spec_font_screen_record %>">
+                                                        <input type="text" id="spec_font_screen_record" class="form-control" placeholder="Quay phim camera trước" name="spec_font_screen_record" value="<%= typeof old !== 'undefined' ? old.spec_font_screen_record : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_font_screen_record !== 'undefined' ? errors.spec_font_screen_record : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_font_screen_feature">Các tính năng khác camera trước</label>
-                                                        <input type="text" id="spec_font_screen_feature" class="form-control" name="spec_font_screen_feature" placeholder="Các tính năng khác camera trước" value="<%= phone[0].spec_font_screen_feature %>">
+                                                        <input type="text" id="spec_font_screen_feature" class="form-control" name="spec_font_screen_feature" placeholder="Các tính năng khác camera trước" value="<%= typeof old !== 'undefined' ? old.spec_font_screen_feature : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_font_screen_feature !== 'undefined' ? errors.spec_font_screen_feature : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,25 +229,29 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_os">Hệ điều hành</label>
-                                                        <input type="text" id="spec_os" class="form-control" placeholder="Hệ điều hành" name="spec_os" value="<%= phone[0].spec_os %>">
+                                                        <input type="text" id="spec_os" class="form-control" placeholder="Hệ điều hành" name="spec_os" value="<%= typeof old !== 'undefined' ? old.spec_os : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_os !== 'undefined' ? errors.spec_os : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_chip">Chíp xử lý (CPU)</label>
-                                                        <input type="text" id="spec_chip" name="spec_chip" class="form-control" placeholder="Chíp xử lý (CPU)" value="<%= phone[0].spec_chip %>">
+                                                        <input type="text" id="spec_chip" name="spec_chip" class="form-control" placeholder="Chíp xử lý (CPU)" value="<%= typeof old !== 'undefined' ? old.spec_chip : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_chip !== 'undefined' ? errors.spec_chip : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_proccess_speed">Tốc độ xử lý</label>
-                                                        <input type="text" id="spec_proccess_speed" class="form-control" placeholder="Tốc độ xử lý" name="spec_proccess_speed" value="<%= phone[0].spec_proccess_speed %>">
+                                                        <input type="text" id="spec_proccess_speed" class="form-control" placeholder="Tốc độ xử lý" name="spec_proccess_speed" value="<%= typeof old !== 'undefined' ? old.spec_proccess_speed : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_proccess_speed !== 'undefined' ? errors.spec_proccess_speed : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_gpu">Chip xử lý đồ họa (GPU)</label>
-                                                        <input type="text" id="spec_gpu" class="form-control" name="spec_gpu" placeholder="GPU" value="<%= phone[0].spec_gpu %>">
+                                                        <input type="text" id="spec_gpu" class="form-control" name="spec_gpu" placeholder="GPU" value="<%= typeof old !== 'undefined' ? old.spec_gpu : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_gpu !== 'undefined' ? errors.spec_gpu : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,19 +268,22 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_ram">Bộ nhớ RAM</label>
-                                                        <input type="text" id="spec_ram" name="spec_ram" class="form-control" placeholder="Bộ nhớ RAM" value="<%= phone[0].spec_ram %>">
+                                                        <input type="text" id="spec_ram" name="spec_ram" class="form-control" placeholder="Bộ nhớ RAM" value="<%= typeof old !== 'undefined' ? old.spec_ram : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_ram !== 'undefined' ? errors.spec_ram : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_rom">Bộ nhớ trong (ROM)</label>
-                                                        <input type="text" id="spec_rom" name="spec_rom" class="form-control" placeholder="Bộ nhớ trong (ROM)" value="<%= phone[0].spec_rom %>">
+                                                        <input type="text" id="spec_rom" name="spec_rom" class="form-control" placeholder="Bộ nhớ trong (ROM)" value="<%= typeof old !== 'undefined' ? old.spec_rom : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_rom !== 'undefined' ? errors.spec_rom : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_external_memory">Hỗ trợ thẻ nhớ ngoài</label>
-                                                        <input type="text" id="spec_external_memory" class="form-control" placeholder="Hỗ trợ thẻ nhớ ngoài" name="spec_external_memory" value="<%= phone[0].spec_external_memory %>">
+                                                        <input type="text" id="spec_external_memory" class="form-control" placeholder="Hỗ trợ thẻ nhớ ngoài" name="spec_external_memory" value="<%= typeof old !== 'undefined' ? old.spec_external_memory : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_external_memory !== 'undefined' ? errors.spec_external_memory : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,43 +300,50 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_charge_port">Cổng kết nối sạc</label>
-                                                        <input type="text" id="spec_charge_port" class="form-control" placeholder="Cổng kết nối sạc" name="spec_charge_port" value="<%= phone[0].spec_charge_port %>">
+                                                        <input type="text" id="spec_charge_port" class="form-control" placeholder="Cổng kết nối sạc" name="spec_charge_port" value="<%= typeof old !== 'undefined' ? old.spec_charge_port : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_charge_port !== 'undefined' ? errors.spec_charge_port : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_headphone_connection">Cổng kết nối tai nghe</label>
-                                                        <input type="text" id="spec_headphone_connection" class="form-control" placeholder="Cổng kết nối tai nghe" name="spec_headphone_connection" value="<%= phone[0].spec_headphone_connection %>">
+                                                        <input type="text" id="spec_headphone_connection" class="form-control" placeholder="Cổng kết nối tai nghe" name="spec_headphone_connection" value="<%= typeof old !== 'undefined' ? old.spec_headphone_connection : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_headphone_connection !== 'undefined' ? errors.spec_headphone_connection : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_network_mobile">Mạng di động</label>
-                                                        <input type="text" id="spec_network_mobile" class="form-control" placeholder="Mạng di động" name="spec_network_mobile" value="<%= phone[0].spec_network_mobile %>">
+                                                        <input type="text" id="spec_network_mobile" class="form-control" placeholder="Mạng di động" name="spec_network_mobile" value="<%= typeof old !== 'undefined' ? old.spec_network_mobile : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_network_mobile !== 'undefined' ? errors.spec_network_mobile : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_wifi">Wifi</label>
-                                                        <input type="text" id="spec_wifi" class="form-control" name="spec_wifi" placeholder="Wifi" value="<%= phone[0].spec_wifi %>">
+                                                        <input type="text" id="spec_wifi" class="form-control" name="spec_wifi" placeholder="Wifi" value="<%= typeof old !== 'undefined' ? old.spec_wifi : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_wifi !== 'undefined' ? errors.spec_wifi : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_bluetooth">Bluetooth</label>
-                                                        <input type="text" id="spec_bluetooth" class="form-control" name="spec_bluetooth" placeholder="Bluetooth" value="<%= phone[0].spec_bluetooth %>">
+                                                        <input type="text" id="spec_bluetooth" class="form-control" name="spec_bluetooth" placeholder="Bluetooth" value="<%= typeof old !== 'undefined' ? old.spec_bluetooth : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_bluetooth !== 'undefined' ? errors.spec_bluetooth : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_gps">GPS</label>
-                                                        <input type="text" id="spec_gps" class="form-control" name="spec_gps" placeholder="GPS" value="<%= phone[0].spec_gps %>">
+                                                        <input type="text" id="spec_gps" class="form-control" name="spec_gps" placeholder="GPS" value="<%= typeof old !== 'undefined' ? old.spec_gps : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_gps !== 'undefined' ? errors.spec_gps : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_sim">Hỗ trợ SIM</label>
-                                                        <input type="text" id="spec_sim" name="spec_sim" class="form-control" placeholder="Hỗ trợ sim" value="<%= phone[0].spec_sim %>">
+                                                        <input type="text" id="spec_sim" name="spec_sim" class="form-control" placeholder="Hỗ trợ sim" value="<%= typeof old !== 'undefined' ? old.spec_sim : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_sim !== 'undefined' ? errors.spec_sim : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,13 +360,15 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_pin">Dung lượng pin</label>
-                                                        <input type="text" id="spec_pin" name="spec_pin" class="form-control" placeholder="Dung lượng pin" value="<%= phone[0].spec_pin %>">
+                                                        <input type="text" id="spec_pin" name="spec_pin" class="form-control" placeholder="Dung lượng pin" value="<%= typeof old !== 'undefined' ? old.spec_pin : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_pin !== 'undefined' ? errors.spec_pin : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_fast_charge">Công nghệ sạc nhanh</label>
-                                                        <input type="text" id="spec_fast_charge" class="form-control" placeholder="Công nghệ sạc nhanh" name="spec_fast_charge" value="<%= phone[0].spec_fast_charge %>">
+                                                        <input type="text" id="spec_fast_charge" class="form-control" placeholder="Công nghệ sạc nhanh" name="spec_fast_charge" value="<%= typeof old !== 'undefined' ? old.spec_fast_charge : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_fast_charge !== 'undefined' ? errors.spec_fast_charge : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -346,19 +385,22 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_design_meterial">Vật liệu thiết kế</label>
-                                                        <input type="text" id="spec_design_meterial" class="form-control" placeholder="Vật liệu thiết kế" name="spec_design_meterial" value="<%= phone[0].spec_design_meterial %>">
+                                                        <input type="text" id="spec_design_meterial" class="form-control" placeholder="Vật liệu thiết kế" name="spec_design_meterial" value="<%= typeof old !== 'undefined' ? old.spec_design_meterial : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_design_meterial !== 'undefined' ? errors.spec_design_meterial : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_size">Kích thước</label>
-                                                        <input type="text" id="spec_size" class="form-control" placeholder="Kích thước" name="spec_size" value="<%= phone[0].spec_size %>">
+                                                        <input type="text" id="spec_size" class="form-control" placeholder="Kích thước" name="spec_size" value="<%= typeof old !== 'undefined' ? old.spec_size : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_size !== 'undefined' ? errors.spec_size : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_weight">Trọng lượng</label>
-                                                        <input type="text" id="spec_weight" class="form-control" placeholder="Trọng lượng" name="spec_weight" value="<%= phone[0].spec_weight %>">
+                                                        <input type="text" id="spec_weight" class="form-control" placeholder="Trọng lượng" name="spec_weight" value="<%= typeof old !== 'undefined' ? old.spec_weight : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_weight !== 'undefined' ? errors.spec_weight : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                         </div>
@@ -374,19 +416,22 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_security">Công nghệ bảo mật</label>
-                                                        <input type="text" id="spec_security" name="spec_security" class="form-control" placeholder="Công nghệ bảo mật" value="<%= phone[0].spec_security %>">
+                                                        <input type="text" id="spec_security" name="spec_security" class="form-control" placeholder="Công nghệ bảo mật" value="<%= typeof old !== 'undefined' ? old.spec_security : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_security !== 'undefined' ? errors.spec_security : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_water_resistance">Khả năng chống nước</label>
-                                                        <input type="text" id="spec_water_resistance" class="form-control" placeholder="Khả năng chống nước" name="spec_water_resistance" value="<%= phone[0].spec_water_resistance %>">
+                                                        <input type="text" id="spec_water_resistance" class="form-control" placeholder="Khả năng chống nước" name="spec_water_resistance" value="<%= typeof old !== 'undefined' ? old.spec_water_resistance : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_water_resistance !== 'undefined' ? errors.spec_water_resistance : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12">
                                                     <div class="form-group">
                                                         <label for="spec_other_feature">Tính năng khác</label>
-                                                        <input type="text" id="spec_other_feature" class="form-control" placeholder="Tính năng khác" name="spec_other_feature" value="<%= phone[0].spec_other_feature %>">
+                                                        <input type="text" id="spec_other_feature" class="form-control" placeholder="Tính năng khác" name="spec_other_feature" value="<%= typeof old !== 'undefined' ? old.spec_other_feature : "" %>">
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.spec_other_feature !== 'undefined' ? errors.spec_other_feature : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -402,7 +447,8 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <textarea name="detail" id="detail" rows="7" style="width: 100%;" placeholder="Thông tin chi tiết"><%- phone[0].detail %> </textarea>
+                                                        <textarea name="detail" id="detail" rows="10" style="width: 100%;" placeholder="Thông tin chi tiết"><%= typeof old !== 'undefined' ? old.detail : "" %></textarea>
+                                                        <p class="text-danger"><%= typeof errors !== 'undefined' ? (typeof errors.detail !== 'undefined' ? errors.detail : "") : "" %> </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -417,9 +463,9 @@
                         </div>
                     </div>
                 </form>
-            </section>
-        <% } else { %>
-            <div class="text-center fst-italic text-danger">Không tìm thấy điện thoại!</div>
-        <% } %>
+            <% } else { %>
+                <div class="text-center fst-italic text-danger">Không tìm thấy điện thoại!</div>
+            <% } %>
+        </section>
     </div>
 <%- include('../layouts/footer') %>

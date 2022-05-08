@@ -162,6 +162,22 @@ td {
         }
     }
 }
+.order-check {
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 16%);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 20px auto;
+}
+.order-self {
+    .order-check-content {
+        position: relative;
+        .btn-rm-order {
+            position: absolute;
+            right: 0;
+        }
+    }
+}
 @media (min-width: 1024px) {
     .cartContainer {
         padding: 8vh 128px;

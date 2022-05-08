@@ -22,14 +22,14 @@ export default function BlogDetail(){
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);
         })
-    }, []);
+    }, [params.slug]);
     return(
         <ScreensLayout>
             {data ?
                 <div className="container blog-detail">
                     <div className="blog-title">{data.title}</div>
                     <div className="blog-sub-info">
-                        <div className="author">Bởi {data.user_id} - </div>
+                        <div className="author">Bởi {data.full_name} - </div>
                         <div className="modify">{formatDate(data.updated_at)}</div>
                         <div className="view"><i class="fa fa-eye" aria-hidden="true"></i> {data.view}</div>
                     </div>

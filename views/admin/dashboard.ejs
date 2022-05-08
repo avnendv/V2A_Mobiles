@@ -16,9 +16,54 @@
             </div>
         </div>
         <section class="section">
+            <div class="data-chart" data-params="<%= JSON.stringify(statistical) %>"></div>
             <div class="card">
-                <%= new Date() %> 
+                <%
+                    let today = new Date();
+                    const yyyy = today.getFullYear();
+                    let mm = today.getMonth() + 1; // Months start at 0!
+                    let dd = today.getDate();
+
+                    if (dd < 10) dd = '0' + dd;
+                    if (mm < 10) mm = '0' + mm;
+
+                    today = dd + '/' + mm + '/' + yyyy;    
+                %>
+                <div class="my-3 fst-italic">
+                    <div class="h4">Chúc một ngày tốt lành</div>
+                    <span style="font-size: 11x;"><%= today %> </span>
+                </div>
+                <div>
+                    <div class="h3 my-2 text-center">Thống kê danh doanh thu</div>
+                    <div class="chart-statistical">
+                        <canvas id="turnover" width="400" height="400"></canvas>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 <%- include('layouts/footer') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+    const dataChart = $('.data-chart').data('params');
+    const labels = dataChart.date;
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Doanh thu (VNĐ/Ngày)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: dataChart.value,
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+    const turnover = new Chart(
+        document.getElementById('turnover'),
+        config
+    );
+</script>

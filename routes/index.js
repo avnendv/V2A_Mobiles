@@ -2,6 +2,7 @@
 const web = require('./web');
 const api = require('./api');
 const linksAdmin = require('../widgets/linksAdmin');
+const requireLogin = require('../middlewares/loginAdminMiddleware').requireLogin;
 
 function router(app){
     // Add headers before the routes are defined
@@ -11,7 +12,7 @@ function router(app){
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
         // Request methods you wish to allow
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH');
 
         // Request headers you wish to allow
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -27,7 +28,7 @@ function router(app){
     app.use('/api', api);
 
     //Pages Client
-    app.use('/admin', linksAdmin, web);
+    app.use('/admin', requireLogin, linksAdmin, web);
 }
 
 module.exports = router;

@@ -8,6 +8,7 @@ const BlogController = require('../../controllers/api/BlogController');
 const UserController = require('../../controllers/api/UserController');
 const CartController = require('../../controllers/api/CartController');
 const OrderController = require('../../controllers/api/OrderController');
+const RateController = require('../../controllers/api/RateController');
 
 //Home
 router.get('/top', HomeController.viewTop);
@@ -33,4 +34,11 @@ router.delete('/cart/delete', CartController.delete);
 router.delete('/cart/destroy', CartController.destroy);
 //Order
 router.post('/order', OrderController.createPaymentUrl);
+router.get('/order/return', OrderController.createReturnUrl);
+router.get('/order/check', OrderController.orderCheck);
+router.get('/order/info', OrderController.orderSelf);
+router.post('/order/cancel', OrderController.orderCancel);
+//Ratting
+router.get('/rate', RateController.get);
+router.post('/rate/create', RateController.store);
 module.exports = router;

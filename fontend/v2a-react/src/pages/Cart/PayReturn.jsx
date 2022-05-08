@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ScreensLayout from "../Layout/Layout";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import orderApi from "../../api/Order";
+import formatPrice from "../../helper/helper";
 const PayReturn = () => {
+    const [searchParams] = useSearchParams();
+    useEffect(() => {
+        if (searchParams) {
+            orderApi.vnpReturn(searchParams);
+        }
+    }, [searchParams])
     return (
         <>
             <ScreensLayout>
@@ -11,9 +19,6 @@ const PayReturn = () => {
                             <tr>
                                 <th colSpan={2} className="header column">
                                     VnPay response
-                                    {
-                                        // value.get('phone')
-                                    }
                                 </th>
                             </tr>
                         </thead>
@@ -22,7 +27,7 @@ const PayReturn = () => {
                                 <td className="column">Mã đơn hàng</td>
                                 <td className="column">
                                     {
-                                        // value.get('vnp_TxnRef')
+                                        searchParams.get('vnp_TxnRef')
                                     }
                                 </td>
                             </tr>
@@ -30,16 +35,15 @@ const PayReturn = () => {
                                 <td className="column">Số tiền</td>
                                 <td className="column">
                                     {
-                                        // Number(value.get('vnp_Amount')) / 100
-                                    }{" "}
-                                    vnd
+                                        formatPrice(Number(searchParams.get('vnp_Amount')) / 100)
+                                    }
                                 </td>
                             </tr>
                             <tr>
                                 <td className="column">Nội dung thanh toán</td>
                                 <td className="column">
                                     {
-                                        // (value.get('vnp_OrderInfo')).replaceAll('+', ' ')
+                                        searchParams.get('vnp_OrderInfo') !== 'undefined' && (searchParams.get('vnp_OrderInfo')).replaceAll('+', ' ')
                                     }
                                 </td>
                             </tr>
@@ -47,7 +51,7 @@ const PayReturn = () => {
                                 <td className="column">Mã phản hồi</td>
                                 <td className="column">
                                     {
-                                        // value.get('vnp_ResponseCode')
+                                        searchParams.get('vnp_ResponseCode')
                                     }
                                 </td>
                             </tr>
@@ -55,7 +59,7 @@ const PayReturn = () => {
                                 <td className="column">Mã giao dịch tại vnpay</td>
                                 <td className="column">
                                     {
-                                        // value.get('vnp_TransactionNo')
+                                        searchParams.get('vnp_TransactionNo')
                                     }
                                 </td>
                             </tr>
@@ -63,7 +67,7 @@ const PayReturn = () => {
                                 <td className="column">Mã ngân hàng</td>
                                 <td className="column">
                                     {
-                                        // value.get('vnp_BankCode')
+                                        searchParams.get('vnp_BankCode')
                                     }
                                 </td>
                             </tr>
@@ -71,16 +75,16 @@ const PayReturn = () => {
                                 <td className="column">Thời gian thanh toán</td>
                                 <td className="column">
                                     {
-                                        // value.get('vnp_PayDate')
+                                        searchParams.get('vnp_PayDate')
                                     }
                                 </td>
                             </tr>
                             <tr>
                                 <td className="column">Trạng thái</td>
                                 {
-                                    // value.get('vnp_ResponseCode') === '00'
-                                    //   ? <td className="column" style={{ color: 'blue' }}>Thanh toán thành công</td>
-                                    //   : <td className="column" style={{ color: 'red' }}>Thanh toán thất bại</td>
+                                    searchParams.get('vnp_ResponseCode') === '00'
+                                      ? <td className="column" style={{ color: 'blue' }}>Thanh toán thành công</td>
+                                      : <td className="column" style={{ color: 'red' }}>Thanh toán thất bại</td>
                                 }
                             </tr>
                         </tbody>

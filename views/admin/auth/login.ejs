@@ -1,11 +1,11 @@
 <%- include('../layouts/header_blank',{title: 'Đăng nhập'}) %>
 <div class="w-50 m-auto py-5">
     <div class="auth-logo">
-        <a href=""><img src="/back/assets/images/logo/logo.png" alt="Logo"></a>
+        <a href=""><img src="/back/assets/images/logo/logo.png" alt="Logo" height="80px"></a>
     </div>
     <h1 class="auth-title">Đăng nhập</h1>
     <p class="auth-subtitle mb-5">Chào mừng bạn đến với trang quản trị. Vui lòng đăng nhập để truy cập hệ thống</p>
-    <div class="text-danger fst-italic mb-2"><%= typeof ?error !== 'undefined' ? error : ''  %> </div>
+    <div class="text-danger fst-italic mb-2"><%= typeof error !== 'undefined' ? error : ''  %> </div>
     <form action="login" method="POST">
         <div class="form-group position-relative has-icon-left mb-4">
             <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập" name="user_name">

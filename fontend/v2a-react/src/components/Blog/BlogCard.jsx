@@ -18,7 +18,7 @@ export default function BlogCard(props) {
                 </Link>
                 <div className="blog-info">
                     <Badge bg="dark">Tin hot</Badge>
-                    <div className="blog-info-time">{formatDate(data.updated_at)}</div>
+                    <div className="blog-info-time">Bởi {data.full_name} - {formatDate(data.updated_at)}</div>
                     <div className="blog-info-view">
                         <i class="fa fa-eye" aria-hidden="true"></i> {data.view}
                     </div>

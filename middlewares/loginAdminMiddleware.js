@@ -31,10 +31,16 @@ module.exports = {
         next();
     },
     requireLogin: (req, res, next) =>{
-        if (req.session.admin) {
-            next();
+        const active = req._parsedUrl.pathname.split('/')[2];
+        if (active !== 'login') {
+            if (req.session.admin) {
+                res.locals.admin = req.session.admin;
+                next();
+                return;
+            }
+            res.redirect('/admin/login');
             return;
-        }
-        res.redirect('/admin/login');
+        };
+        next();
     }
 }

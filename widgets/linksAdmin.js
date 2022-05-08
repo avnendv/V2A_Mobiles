@@ -41,6 +41,15 @@ module.exports = (req, res, next) => {
             }
         },
         {
+            link: '/admin/order',
+            name: 'Quản lí đơn hàng',
+            icon: 'bi bi-cart2',
+            active: active === 'order' ? 'active' : '',
+            linkItem: {
+                status: false,
+            }
+        },
+        {
             link: '/admin/blog',
             name: 'Quản lí blog',
             icon: 'bi bi-book',

@@ -11,19 +11,20 @@ module.exports = {
         // calculate offset
         const offset = ((!isNaN(page) && page || 1) - 1) * perPage;
         return new Promise((reslove, reject) => {
-            let sql = 'SELECT title, image, view, slug, updated_at FROM blog WHERE 1 = 1';
+            let sql = 'SELECT blog.id, blog.title, blog.image, blog.view, blog.slug, blog.updated_at, users.full_name FROM blog JOIN users ON blog.user_id = users.id WHERE 1 = 1';
             if (query.id && query.id != '') {
-                sql += ' AND `id` = '+ conn.escape(parseInt(query.id));
+                sql += ' AND blog.id = '+ conn.escape(parseInt(query.id));
             }
             if (user_id && query.user_id != '') {
-                sql += ' AND `user_id` = '+ conn.escape(parseInt(user_id));
+                sql += ' AND blog.user_id = '+ conn.escape(parseInt(user_id));
             }
             if (query.title && query.title != '') {
-                sql += ' AND `title` LIKE "%' + query.title + '%"';
+                sql += ' AND blog.title LIKE "%' + query.title + '%"';
             }
+            sql += ' GROUP BY blog.id, blog.title, blog.image, blog.view, blog.slug, blog.updated_at, users.full_name ORDER BY blog.updated_at DESC';
             conn.query(sql, (err, result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
                 // if (!result.length) {
                 //     reject('Danh sách trống!');
@@ -35,9 +36,9 @@ module.exports = {
             sql += ` limit ${perPage} OFFSET ${offset}`;
             conn.query(sql, (err, result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                reslove({listBlog: [...result], page, totalPage});
+                return reslove({listBlog: [...result], page, totalPage});
             })
         })
     },
@@ -46,26 +47,28 @@ module.exports = {
             const sql = 'SELECT * FROM blog WHERE id = ?';
             conn.query(sql, [id], (err, result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
                 // if (!result.length) {
                 //     reject('Danh sách trống!');
                 // }
-                reslove(result);
+                return reslove(result);
             })
         })
     },
     findBySlug: (slug) => {
         return new Promise((reslove, reject) => {
-            const sql = 'SELECT * FROM blog WHERE slug = ?';
+            let sql = 'SELECT blog.id, blog.title, blog.image, blog.view, blog.slug, blog.updated_at, blog.content, users.full_name FROM blog JOIN users ON blog.user_id = users.id WHERE blog.slug = ?';
+            sql += ' GROUP BY blog.id, blog.title, blog.image, blog.view, blog.slug, blog.updated_at, blog.content, users.full_name';
             conn.query(sql, [slug], (err, result) => {
                 if (err) {
-                    reject(err);
+                    console.log(err)
+                    return reject(err);
                 }
                 // if (!result.length) {
                 //     reject('Danh sách trống!');
                 // }
-                reslove(result);
+                return reslove(result);
             })
         })
     },
@@ -74,9 +77,9 @@ module.exports = {
             const sql = 'INSERT INTO blog SET ?';
             conn.query(sql, {...data, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                reslove(result);
+                return reslove(result);
             })
         })
     },
@@ -85,9 +88,9 @@ module.exports = {
             const sql = 'UPDATE blog SET ? WHERE id = ? AND `user_id` = ?';
             conn.query(sql, [{...data, updated_at: new Date()}, id, user_id], (err, result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                reslove(result);
+                return reslove(result);
             })
         })
     },
@@ -96,9 +99,9 @@ module.exports = {
             const sql = 'UPDATE blog SET ? WHERE id = ?';
             conn.query(sql, [{view: view}, id], (err, result) => {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                reslove(result);
+                return reslove(result);
             })
         })
     },
@@ -109,20 +112,20 @@ module.exports = {
                 conn.query(sql, [id], (err,result) => {
                     if (err) {
                         return connection.rollback(function() {
-                            reject(err);
+                            return reject(err);
                         });
                     }
-                    reslove('success');
+                    return reslove('success');
                 })
             } else {
                 const sql = 'DELETE FROM blog WHERE id = ? AND user_id = ?';
                 conn.query(sql, [id, user_id], (err,result) => {
                     if (err) {
                         return connection.rollback(function() {
-                            reject(err);
+                            return reject(err);
                         });
                     }
-                    reslove('success');
+                    return reslove('success');
                 })
             }
         })

@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import Rating from '@mui/material/Rating';
 import { toast } from "react-toastify";
 import phoneApi from "../../api/Phone";
 import Breadcrumb from "../../components/Breadcrumb";
@@ -7,14 +10,75 @@ import ERROR_MESSAGE from "../../constants/errors";
 import formatPrice, { options } from "../../helper/helper";
 import setLocalStorage, { getLocalStorage } from "../../helper/storage";
 import storage from "../../constants/storage";
+import linkName from "../../constants/linkName";
+import { Carousel } from "antd";
+import PhoneCard from "../../components/Phone/PhoneCard";
+import { Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 // Screens
 import ScreensLayout from '../Layout/Layout';
 
-export default function Phone(){
-    const params = useParams();
+const schema = yup.object({
+    comment: yup.string().trim()
+    .required("Bình luận không được để trống"),
+}).required();
 
+export default function Phone(){
+    const auth = getLocalStorage(storage.AUTH);
+    const params = useParams();
+    const navigate = useNavigate();
     const [data, setData] = useState(null);
+    const [phoneRelate, setPhoneRelate] = useState(null);
+    const [valueRatting, setValueRatting] = useState(4);
+    const [rattingData, setRattingData] = useState(null);
+    const slider = useRef(null);
+
+    const { register, handleSubmit, formState:{ errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
+
+    const getApiRatting = () => {
+        phoneApi.getRatting({phone_id: data.id})
+        .then((response) => {
+            if (response.result === 1) {
+                setRattingData(response.data.listRate);
+            }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
+    }
+    const getApiList = () => {
+        phoneApi.getList({branch_id: data.branch_id})
+        .then((response) => {
+            if (response.result === 1) {
+                setPhoneRelate(response.data.listPhone);
+            }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
+    }
+    const onSubmit = dataInput => {
+        const dataSubmit = {
+            ...dataInput,
+            phone_id: data.id,
+            ratting: valueRatting,
+        }
+        if (auth) {
+            dataSubmit.user_id = auth.user_id;
+        }
+        phoneApi.createRatting(dataSubmit)
+        .then((response) => {
+            if (response.result === 1) {
+                getApiRatting();
+            }
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
+    }
 
     const addToCart = () => {
         if (!getLocalStorage(storage.CART)) {
@@ -38,6 +102,10 @@ export default function Phone(){
         }
     }
 
+    const buyNow = () => {
+        addToCart();
+        navigate(linkName.ORDER);
+    }
     useEffect(() => {
         phoneApi.getDetail(params.slug)
         .then((response) => {
@@ -49,6 +117,14 @@ export default function Phone(){
             toast.error(ERROR_MESSAGE, options);
         })
     }, [params.slug]);
+
+    useEffect(() => {
+        if (data) {
+            Promise.all([getApiList(), getApiRatting()])
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, data);
+
     return(
         <ScreensLayout>
             {data &&
@@ -80,7 +156,7 @@ export default function Phone(){
                                     </div>
                                 </div>
                                 <div className="product-action">
-                                    <div className="btn-red btnQuickOrder btnbuy"><strong>MUA NGAY</strong><span> Giao tận nhà (COD) hoặc Nhận tại cửa hàng</span></div>
+                                    <div className="btn-red btnQuickOrder btnbuy" onClick={() => buyNow()}><strong>MUA NGAY</strong><span> Giao tận nhà (COD) hoặc Nhận tại cửa hàng</span></div>
                                     <div className="add-cart btn-orange btnbuy btn-icon" onClick={() => addToCart()}><i className="fa fa-shopping-cart" aria-hidden="true"></i></div>
 							    </div>
                             </div>
@@ -144,10 +220,52 @@ export default function Phone(){
                         </div>
                         <div className="product-comment">
                             <h6>Bình luận về {data.name}</h6>
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <div className="product-rate">
+                                    <div>Đánh giá</div>
+                                    <Rating name="simple-controlled" value={valueRatting} onChange={(event, newValue) => {
+                                        setValueRatting(newValue);
+                                    }} />
+                                    <Form.Group className="mb-3" controlId="">
+                                        <Form.Label>Bình luận của bạn</Form.Label>
+                                        <Form.Control as="textarea" rows={3} {...register("comment")} />
+                                        <p className="valid-error">{errors.comment?.message}</p>
+                                    </Form.Group>
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <div className="fst-italic">Đánh giá và bình luận về điện thoại</div>
+                                    <button className="btn btn-success" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Gửi bình luận</button>
+                                </div>
+                            </Form>
+                            <div className="my-3">
+                                {rattingData && rattingData.map((item) => {
+                                    return <div key={item.id} className="mb-3">
+                                        <h5 className="mb-0">{item.full_name || "Ẩn danh"}</h5>
+                                        <span className="fst-italic text-secondary">{item.updated_at}</span>
+                                        <br/>
+                                        <Rating value={item.ratting} readOnly/>
+                                        <div>{item.comment}</div>
+                                    </div>
+                                })}
+                            </div>
                         </div>
                         <div className="product-relate">
                             <h3 className="text-center my-3">Sản phẩm liên quan</h3>
-
+                            <div className='d-flex justify-content-end'>
+                                <div className='btn btn-secondary me-2' onClick={() => slider.current.prev()}><i className="fa fa-angle-double-left" aria-hidden="true"></i></div>
+                                <div className='btn btn-secondary' onClick={() => slider.current.next()}><i className="fa fa-angle-double-right" aria-hidden="true"></i></div>
+                            </div>
+                            {phoneRelate &&
+                                <>
+                                    <Carousel infinite={false} initialSlide={1} autoplay={true} slidesToScroll={1} slidesToShow={5} className="product-carousel" ref={slider}>
+                                        {
+                                            phoneRelate.map((item) => {
+                                                return <PhoneCard phone={item} key={item.id} />
+                                            })
+                                        }
+                                    </Carousel>
+                                </>
+                            }
                         </div>
                     </div>
                 </div> 

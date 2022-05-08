@@ -21,6 +21,11 @@
                     <h4 class="card-title">Branch</h4>
                     <button class="btn btn-success btn-action" data-bs-toggle="modal" data-bs-target="#modalAction">Thêm</button>
                 </div>
+                <% if (typeof errors !== 'undefined') { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert"><%= errors.branch_name %> 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
                 <div class="table-responsive">
                     <% if (branches && branches.length > 0) { %>
                         <table class="table table-hover table-striped mb-0">

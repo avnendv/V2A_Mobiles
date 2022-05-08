@@ -20,6 +20,9 @@ module.exports = {
             if (query.full_name && query.full_name != '') {
                 sql += ' AND full_name LIKE "%' + query.full_name + '%"';
             }
+            if (query.phone && query.phone != '') {
+                sql += ' AND phone LIKE "%' + query.phone + '%"';
+            }
             conn.query(sql, (err, result) => {
                 if (err) {
                     reject(err);
@@ -37,6 +40,31 @@ module.exports = {
                     reject(err);
                 }
                 reslove({listOrder: [...result], page, totalPage});
+            })
+        })
+    },
+    findDetail: (query) => {
+        return new Promise((reslove, reject) => {
+            let sql = `SELECT orders.id, orders.full_name, orders.address, orders.phone, orders.payment, orders.status,
+                order_detail.phone_id AS phone_id, order_detail.quantity AS quantity, phones.name AS phone_name, phones.price AS price, orders.created_at AS created_at
+                FROM orders JOIN order_detail ON orders.id = order_detail.order_id 
+                JOIN phones ON order_detail.phone_id = phones.id
+                WHERE 1 = 1`;
+            if (query.id && query.id != '') {
+                sql += ' AND orders.id = '+ conn.escape(parseInt(query.id));
+            }
+            if (query.user_id && query.user_id != '') {
+                sql += ' AND orders.user_id = '+ conn.escape(parseInt(query.user_id));
+            }
+            if (query.phone && query.phone != '') {
+                sql += ' AND orders.phone LIKE "%' + query.phone + '%"';
+            }
+            sql += ` GROUP BY orders.id, orders.full_name, orders.address, orders.phone, orders.payment, orders.status, order_detail.phone_id, order_detail.quantity, phones.name, phones.price, orders.created_at`;
+            conn.query(sql, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                reslove(result);
             })
         })
     },
@@ -62,7 +90,7 @@ module.exports = {
                 const orders = data.orders;
                 conn.query(sql, {...orders, created_at: new Date(), updated_at: new Date()}, (err,result) => {
                     if (err) {
-                        return connection.rollback(function() {
+                        return conn.rollback(function() {
                             reject(err);
                         })
                     }
@@ -73,11 +101,18 @@ module.exports = {
                     });
                     conn.query(sqlDetail, [values], function (er, rs) {
                         if (er) {
-                            return connection.rollback(function() {
+                            return conn.rollback(function() {
                                 reject(er);
                             });
                         }
-                        reslove(result.insertId);
+                        conn.commit(function(errs) {
+                            if (errs) {
+                                return conn.rollback(function() {
+                                    reject(errs);
+                                });
+                            }
+                            reslove(result.insertId);
+                        })
                     });
                 })
             });
@@ -102,19 +137,26 @@ module.exports = {
                 const sqlOrderDetail = 'DELETE FROM order_detail WHERE order_id = ?';
                 conn.query(sql, [id], (err,result) => {
                     if (err) {
-                        return connection.rollback(function() {
+                        return conn.rollback(function() {
                             reject(err);
                         });
                     }
-                })
+                });
                 conn.query(sqlOrderDetail, [id], (err,result) => {
                     if (err) {
-                        return connection.rollback(function() {
+                        return conn.rollback(function() {
                             reject(err);
                         });
                     }
+                });
+                conn.commit(function(errs) {
+                    if (errs) {
+                        return conn.rollback(function() {
+                            reject(errs);
+                        });
+                    }
+                    reslove('success');
                 })
-                reslove('success');
             })
         })
     },

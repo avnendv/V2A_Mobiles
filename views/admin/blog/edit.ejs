@@ -15,6 +15,11 @@
                 </div>
             </div>
         </div>
+        <% if (typeof errors !== 'undefined') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">Đã có lỗi xảy ra! Vui lòng nhập đủ dữ liệu! 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
         <% if (blog && blog.length) { %>
             <section class="section">
                 <form action="/admin/blog/edit/<%= blog[0].id %>?_method=PUT" method="post">

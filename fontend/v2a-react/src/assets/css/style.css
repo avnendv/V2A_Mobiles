@@ -7,7 +7,17 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f4f4f4;
 }
-
+#dropdown-user {
+    background-color: unset;
+    color: inherit;
+    border: unset;
+}
+.dropdown-menu[aria-labelledby="dropdown-user"] a {
+    color: unset;
+}
+.btn-check:focus + .btn-success, .btn-success:focus, .btn-check:checked + .btn-success:focus, .btn-check:active + .btn-success:focus, .btn-success:active:focus, .btn-success.active:focus, .show > .btn-success.dropdown-toggle:focus {
+    box-shadow: unset !important;
+}
 a {
     text-decoration: none;
 }
@@ -170,11 +180,11 @@ h6 {
     padding: 10px;
     position: relative;
     border-radius: 5px;
-    background-color: #72a8e6;
+    background-color: #2b81e4;
 }
 
 .shopping-item a {
-    color: #666;
+    color: #fff;
 }
 
 .cart-amunt {

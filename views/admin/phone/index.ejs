@@ -81,7 +81,7 @@
                                         <td><%= phone.name %></td>
                                         <td>
                                             <% branches.forEach(branch => { %>
-                                                <%= branch.id === phone.id ? branch.name : '' %> 
+                                                <%= branch.id === phone.branch_id ? branch.name : '' %> 
                                             <% }) %>
                                         </td>
                                         <td><%= phone.spec_ram %> </td>

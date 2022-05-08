@@ -12,6 +12,7 @@ import setLocalStorage, { getLocalStorage } from "../../helper/storage";
 import orderApi from "../../api/Order";
 import { toast } from "react-toastify";
 import ERROR_MESSAGE from "../../constants/errors";
+import ModalAuth from "../../components/Auth/ModalAuth";
 
 const schema = yup.object({
     full_name: yup.string().trim()
@@ -26,12 +27,19 @@ const schema = yup.object({
 }).required();
 
 const Pay = () => {
+    const auth = getLocalStorage(storage.AUTH);
+    const [modalShow, setModalShow] = useState(false);
+    const togleModal = () => setModalShow(!modalShow);
     const [products, setProducts] = useState(getLocalStorage(storage.CART)?.cart || []);
     const { register, handleSubmit, formState:{ errors } } = useForm({
         resolver: yupResolver(schema)
-      });
+    });
     const onSubmit = data => {
-        orderApi.createOrder({data, products})
+        if (!products || !products.length) {
+            toast.error('Không có sản phẩm nào để đặt hàng!', options);
+            return;
+        }
+        orderApi.createOrder({data: {...data, total: totalPrice(products)}, products, token: auth.token})
         .then(response => {
             if (response.result === 1) {
                 if (response.data?.vnpUrl) {
@@ -56,12 +64,17 @@ const Pay = () => {
                 sum += product.quantity * product.price;
             });
         } else sum = 0;
-        return formatPrice(sum)
+        return sum;
     };
+    useEffect(() => {
+        if (!auth) {
+            setModalShow(true);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalShow]);
     useEffect(() => {
         setLocalStorage(storage.CART, { cart: products });
     }, [products]);
-
     return (
         <ScreensLayout>
             <div className="container orders">
@@ -133,9 +146,9 @@ const Pay = () => {
                             :
                             <div>Không có điện thoại nào để tiến hành đặt hàng</div>
                         }
-                        <div className="h6">Tổng giá trị: <span className="fst-italic fw-normal">{totalPrice(products)}</span></div>
+                        <div className="h6">Tổng giá trị: <span className="fst-italic fw-normal">{formatPrice(totalPrice(products))}</span></div>
                         <div className="h6">Giảm giá: <span className="fst-italic fw-normal">{formatPrice(0)}</span></div>
-                        <div className="h6">Tổng thanh toán: <span className="fst-italic fw-normal">{totalPrice(products)}</span></div>
+                        <div className="h6">Tổng thanh toán: <span className="fst-italic fw-normal">{formatPrice(totalPrice(products))}</span></div>
                     </div>
                     <div className="col-md-6">
                         <div className="h4 text-center info-title">Thông tin đặt hàng</div>
@@ -189,6 +202,7 @@ const Pay = () => {
                     </div>
                 </div>
             </div>
+            {modalShow && <ModalAuth show={modalShow} onHide={togleModal} togleModal={togleModal} />}
         </ScreensLayout>
     );
 };

@@ -14,6 +14,9 @@ import Cart from "./pages/Cart/Cart";
 import Pay from "./pages/Cart/Pay";
 import PayReturn from "./pages/Cart/PayReturn";
 import About from "./pages/About/About";
+import UserInfo from "./pages/User/Info";
+import OrderCheck from "./pages/Cart/OrderCheck";
+import OrderSelf from "./pages/Cart/OrderSelf";
 
 /**
  *
@@ -27,12 +30,15 @@ export default function App() {
                 <Route exact path={LinkName.CART} element={<Cart />} />
                 <Route exact path={LinkName.ORDER} element={<Pay />} />
                 <Route exact path={LinkName.ORDER_RETURN} element={<PayReturn />} />
+                <Route exact path={LinkName.ORDER_CHECK} element={<OrderCheck />} />
+                <Route exact path={LinkName.SELF_ORDER} element={<OrderSelf />} />
                 <Route exact path={LinkName.PHONE.BRANCH} element={<ListPhone />} />
                 <Route exact path={LinkName.PHONE.DETAIL_INDEX} element={<ListPhone />} />
                 <Route exact path={LinkName.PHONE.DETAIL} element={<Phone />} />
                 <Route exact path={LinkName.BLOG.LIST} element={<Blog />} />
                 <Route exact path={LinkName.BLOG.DETAIL} element={<BlogDetail />} />
                 <Route exact path={LinkName.ABOUT} element={<About />} />
+                <Route exact path={LinkName.USER_INFO} element={<UserInfo />} />
                 <Route path="*" element={<Navigate replace to="/" />} />
             </Routes>
         </Suspense>

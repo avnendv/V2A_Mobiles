@@ -27,7 +27,12 @@ export default function LoginForm(props) {
         authApi.login(data)
         .then(response => {
             if (response.result === 1) {
-                setLocalStorage(storage.AUTH, response.data);
+                setLocalStorage(storage.AUTH, {
+                    user_id: response.data.user.user_id,
+                    user_name: response.data.user.user_name,
+                    full_name: response.data.user.full_name,
+                    token: response.data.token,
+                });
                 props.togleModal();
             }
         })

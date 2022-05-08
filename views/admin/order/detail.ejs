@@ -1,0 +1,113 @@
+<%- include('../layouts/header',{title: 'Chi tiết đơn hàng' }) %>
+    <div id="main-content">
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-12 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Đơn hàng
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <a href="/admin/order" class="d-flex align-items-center"><i class="bi bi-arrow-return-left"></i> Quay lại</a>
+            </div>
+            <% if (order && order.length) { %>
+                <section class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Chi tiết đơn hàng <%= order[0].id %>
+                            </h4>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div>Mã đơn hàng: <%= order[0].id %>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div>Ngày đặt hàng: <%= (new Date(order[0].created_at)).toLocaleDateString("en-US",
+                                            { weekday: 'long' , year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div>Người nhận hàng: <%= order[0].full_name %>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div>Thanh toán: <%= order[0].payment==1 ? "Đã thanh toán" : "Chưa thanh toán" %>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div>Trạng thái:
+                                        <% if (order[0].status==-1) { %>
+                                            <span class="text-danger">Đã huỷ</span>
+                                            <% } else if (order[0].status==0) { %>
+                                                <span class="text-secondary">Chờ xử lý</span>
+                                                <% } else if (order[0].status==1) { %>
+                                                    <span class="text-warning">Đang giao</span>
+                                                    <% } else if (order[0].status==2) { %>
+                                                        <span class="text-success">Đã giao</span>
+                                                        <% } else { %>
+                                                            <span class="text-danger">Chưa xác định</span>
+                                                            <% } %>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div>Địa chỉ nhận hàng: <%= order[0].address %> </div>
+                                </div>
+                            </div>
+                            <h4 class="my-2">Danh sách điện thoại</h4>
+                            <table class="table table-head-fixed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên điện thoại</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá</th>
+                                        <th>Tổng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% var total=0 %>
+                                        <% order.forEach(item=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= item.phone_id %>
+                                                </td>
+                                                <td>
+                                                    <%= item.phone_name %>
+                                                </td>
+                                                <td>
+                                                    <%= item.quantity %>
+                                                </td>
+                                                <td>
+                                                    <%= item.price.toLocaleString('it-IT', {style: 'currency' , currency : 'VND' }) %>
+                                                </td>
+                                                <td>
+                                                    <% total +=item.quantity * item.price %>
+                                                        <%= (item.quantity *
+                                                            item.price).toLocaleString('it-IT', {style
+                                                            : 'currency' , currency : 'VND' }) %>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                </tbody>
+                            </table>
+                            <h6 class="my-2 font-italic">Phí ship: <% ship=0 %>
+                                    <%= ship.toLocaleString('it-IT', {style : 'currency' , currency : 'VND' }) %>
+                            </h6>
+                            <h5 class="my-2">Tổng tiền: <%= (total + ship).toLocaleString('it-IT', {style : 'currency' ,
+                                    currency : 'VND' }) %>
+                            </h5>
+                        </div>
+                    </div>
+                </section>
+                <% } else { %>
+                    <div class="text-center fst-italic text-danger">Không tìm thấy đơn hàng!</div>
+                    <% } %>
+        </div>
+        <%- include('../layouts/footer') %>

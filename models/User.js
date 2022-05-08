@@ -111,6 +111,23 @@ module.exports = {
             })
         })
     },
+    updateByUserName: (data, user_name) => {
+        return new Promise((reslove, reject) => {
+            if (data.password) {
+                // Generate a salt
+                const salt = bcryptjs.genSaltSync(10);
+                // Generate a password hash (salt + hash)
+                data.password = bcryptjs.hashSync(data.password, salt);
+            }
+            const sql = 'UPDATE users SET ? WHERE user_name = ?';
+            conn.query(sql, [data, user_name], (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                reslove(result);
+            })
+        })
+    },
     destroy: (user_id) => {
         return new Promise((reslove,reject) => {
             const sql = 'DELETE FROM users WHERE id = ?';

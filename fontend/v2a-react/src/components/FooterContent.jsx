@@ -53,7 +53,7 @@ export default function FooterContent(props) {
 							<div className="newsletter-form">
 								<form action="#">
 									<input type="email" placeholder="Nhập email của bạn..." />
-									<input type="submit" value="Subscribe" />
+									<input type="submit" value="Đăng ký" />
 								</form>
 							</div>
 						</div>

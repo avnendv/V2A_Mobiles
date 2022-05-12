@@ -2,7 +2,7 @@ import React from 'react';
 export default function PhoneFilter(props) {
     return (
         <div className="product-filters">
-            <div className="left">
+            {/* <div className="left">
                 <strong className="label">Lọc danh sách:</strong>
                 <div className="facet">
                     <label>Danh mục <i className="ms-1 fa fa-angle-down" aria-hidden="true"></i></label>
@@ -104,7 +104,7 @@ export default function PhoneFilter(props) {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

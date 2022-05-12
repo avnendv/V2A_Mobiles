@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 
 // Screens
 import ScreensLayout from '../Layout/Layout';
+import PageLoader from "../../components/PageLoader";
 
 const schema = yup.object({
     comment: yup.string().trim()
@@ -28,6 +29,7 @@ export default function Phone(){
     const auth = getLocalStorage(storage.AUTH);
     const params = useParams();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
     const [phoneRelate, setPhoneRelate] = useState(null);
     const [valueRatting, setValueRatting] = useState(4);
@@ -112,6 +114,7 @@ export default function Phone(){
             if (response.result === 1) {
                 setData(response.data);
             }
+            setLoading(false);
         })
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);
@@ -124,6 +127,14 @@ export default function Phone(){
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, data);
+
+    useEffect(() => {
+        if (loading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [loading]);
 
     return(
         <ScreensLayout>
@@ -271,6 +282,7 @@ export default function Phone(){
                 </div> 
             }
             {!data && <div className="fst-italic text-center text-danger my-3">Không tìm thấy sản phẩm nào!</div>}
+            {loading && <PageLoader/>}
         </ScreensLayout>
     );
 }

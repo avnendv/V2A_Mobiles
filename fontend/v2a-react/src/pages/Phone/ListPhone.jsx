@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import homeApi from "../../api/Home";
 import phoneApi from "../../api/Phone";
 import Breadcrumb from "../../components/Breadcrumb";
+import PageLoader from "../../components/PageLoader";
 import PhoneCard from "../../components/Phone/PhoneCard";
 import PhoneFilter from "../../components/Phone/PhoneFilter";
 import ERROR_MESSAGE from "../../constants/errors";
@@ -15,6 +16,7 @@ import ScreensLayout from '../Layout/Layout';
 export default function ListPhone(){
     const params = useParams();
     const [searchParams] = useSearchParams();
+    const [loading, setLoading] = useState(true);
     const [listPhone, setListPhone] = useState([]);
     const [branch, setBranch] = useState(null);
     const keySearch = searchParams.get("phone_name");
@@ -26,6 +28,7 @@ export default function ListPhone(){
                 setListPhone(response.data.phones.listPhone);
                 setBranch(response.data?.branch_name);
             }
+            setLoading(false);
         })
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);
@@ -54,6 +57,15 @@ export default function ListPhone(){
             getApiSearch();
         }
     }, [params.slug, keySearch]);
+
+    useEffect(() => {
+        if (loading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [loading]);
+    
     return(
         <ScreensLayout>
             <div className="container list-phone">
@@ -75,6 +87,7 @@ export default function ListPhone(){
                     <div className="text-center text-danger fst-italic">Không tìm thấy điện thoại nào!</div>
                 }
             </div> 
+            {loading && <PageLoader/>}
         </ScreensLayout>
     );
 }

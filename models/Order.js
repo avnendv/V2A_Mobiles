@@ -23,6 +23,9 @@ module.exports = {
             if (query.phone && query.phone != '') {
                 sql += ' AND phone LIKE "%' + query.phone + '%"';
             }
+            if (query.user_id && query.user_id != '') {
+                sql += ' AND orders.user_id = '+ conn.escape(parseInt(query.user_id));
+            }
             conn.query(sql, (err, result) => {
                 if (err) {
                     reject(err);

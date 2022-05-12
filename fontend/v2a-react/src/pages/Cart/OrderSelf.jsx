@@ -9,10 +9,12 @@ import { getLocalStorage } from "../../helper/storage";
 import storage from "../../constants/storage";
 import linkName from "../../constants/linkName";
 import { useNavigate } from "react-router-dom";
+import PageLoader from "../../components/PageLoader";
 
 const OrderSelf = () => {
     const auth = getLocalStorage(storage.AUTH);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [orderSelf, setOrderSelf] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
 
@@ -22,8 +24,10 @@ const OrderSelf = () => {
             .then(response => {
                 if (response.result === 1) {
                     setOrderSelf(response.data?.listOrder);
+                    setLoading(false);
                     return;
                 }
+                setLoading(false);
                 toast.error(ERROR_MESSAGE, options);
             })
             .catch(error => {
@@ -68,6 +72,15 @@ const OrderSelf = () => {
             toast.error(ERROR_MESSAGE, options);
         })
     }
+
+    useEffect(() => {
+        if (loading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [loading]);
+
     return (
         <>
             <ScreensLayout>
@@ -102,6 +115,7 @@ const OrderSelf = () => {
                         }
                     </div>
                 </div>
+                {loading && <PageLoader/>}
             </ScreensLayout>
         </>
     );

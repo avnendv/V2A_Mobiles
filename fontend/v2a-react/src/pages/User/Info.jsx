@@ -19,6 +19,7 @@ import { getLocalStorage } from "../../helper/storage";
 import storage from "../../constants/storage";
 import linkName from "../../constants/linkName";
 import authApi from "../../api/Auth";
+import PageLoader from "../../components/PageLoader";
 
 const schema = yup.object({
     user_name: yup.string().trim()
@@ -42,6 +43,7 @@ const schema = yup.object({
 
 export default function UserInfo() {
     const auth = getLocalStorage(storage.AUTH);
+    const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState(null);
     const navigate = useNavigate();
     const { register, handleSubmit, formState:{ errors } } = useForm({
@@ -68,12 +70,22 @@ export default function UserInfo() {
             if (response.result === 1) {
                 setUserInfo(response.data[0]);
             }
+            setLoading(false);
         })
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    
+    useEffect(() => {
+        if (loading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [loading]);
+
     return (
         <ScreensLayout>
             <div className="container user-info">
@@ -153,6 +165,7 @@ export default function UserInfo() {
                     </Form>
                 </div>}
             </div>
+            {loading && <PageLoader/>}
         </ScreensLayout>
     );
 }

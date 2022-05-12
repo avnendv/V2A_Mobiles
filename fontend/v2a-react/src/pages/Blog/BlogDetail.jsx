@@ -7,9 +7,11 @@ import { useParams } from "react-router-dom";
 import { formatDate, options } from "../../helper/helper";
 import { toast } from "react-toastify";
 import ERROR_MESSAGE from "../../constants/errors";
+import PageLoader from "../../components/PageLoader";
 
 export default function BlogDetail(){
     const params = useParams();
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
 
     useEffect(()=> {
@@ -18,11 +20,21 @@ export default function BlogDetail(){
             if (response.result === 1) {
                 setData(response.data);
             }
+            setLoading(false);
         })
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);
         })
     }, [params.slug]);
+
+    useEffect(() => {
+        if (loading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [loading]);
+
     return(
         <ScreensLayout>
             {data ?
@@ -46,6 +58,7 @@ export default function BlogDetail(){
             :
                 <div className="text-center text-danger fst-italic">Không tìm thấy bài viết!</div>
             }
+            {loading && <PageLoader/>}
         </ScreensLayout>
     );
 }

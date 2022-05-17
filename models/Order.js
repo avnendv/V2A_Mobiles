@@ -49,7 +49,7 @@ module.exports = {
     findDetail: (query) => {
         return new Promise((reslove, reject) => {
             let sql = `SELECT orders.id, orders.full_name, orders.address, orders.phone, orders.payment, orders.status,
-                order_detail.phone_id AS phone_id, order_detail.quantity AS quantity, phones.name AS phone_name, phones.price AS price, orders.created_at AS created_at
+                order_detail.phone_id AS phone_id, order_detail.quantity AS quantity, phones.name AS phone_name, phones.price AS price, phones.slug, orders.created_at AS created_at
                 FROM orders JOIN order_detail ON orders.id = order_detail.order_id 
                 JOIN phones ON order_detail.phone_id = phones.id
                 WHERE 1 = 1`;
@@ -62,7 +62,7 @@ module.exports = {
             if (query.phone && query.phone != '') {
                 sql += ' AND orders.phone LIKE "%' + query.phone + '%"';
             }
-            sql += ` GROUP BY orders.id, orders.full_name, orders.address, orders.phone, orders.payment, orders.status, order_detail.phone_id, order_detail.quantity, phones.name, phones.price, orders.created_at`;
+            sql += ` GROUP BY orders.id, orders.full_name, orders.address, orders.phone, orders.payment, orders.status, order_detail.phone_id, order_detail.quantity, phones.name, phones.price, phones.slug, orders.created_at`;
             conn.query(sql, (err, result) => {
                 if (err) {
                     reject(err);

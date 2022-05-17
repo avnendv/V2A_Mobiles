@@ -37,6 +37,7 @@ router.post('/order', OrderController.createPaymentUrl);
 router.get('/order/return', OrderController.createReturnUrl);
 router.get('/order/check', OrderController.orderCheck);
 router.get('/order/info', OrderController.orderSelf);
+router.get('/order/view', OrderController.orderView);
 router.post('/order/cancel', OrderController.orderCancel);
 //Ratting
 router.get('/rate', RateController.get);

@@ -157,4 +157,18 @@ module.exports = {
             return res.json(response.createError("Đã có lỗi xảy ra!"));
         }
     },
+    orderView: (req, res, next) => {
+        const token = helper.vertifyToken(req.query.token);
+        if (token) {
+            Order.findDetail({user_id: token.user_id, id: req.query.order_id})
+            .then(orders => {
+                return res.json(response.createResponse(orders));
+            })
+            .catch(error => {
+                return res.json(response.createError());
+            })
+        } else {
+            return res.json(response.createError("Đã có lỗi xảy ra!"));
+        }
+    }
 }

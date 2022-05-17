@@ -44,6 +44,7 @@ export default function ListPhone(){
             if (response.result === 1) {
                 setListPhone(response.data.listPhone);
             }
+            setLoading(false);
         })
         .catch(error => {
             toast.error(ERROR_MESSAGE, options);

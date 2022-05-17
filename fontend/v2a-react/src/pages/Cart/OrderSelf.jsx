@@ -10,13 +10,20 @@ import storage from "../../constants/storage";
 import linkName from "../../constants/linkName";
 import { useNavigate } from "react-router-dom";
 import PageLoader from "../../components/PageLoader";
+import ModalOrderView from "../../components/ModalOrderView";
 
 const OrderSelf = () => {
     const auth = getLocalStorage(storage.AUTH);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [orderSelf, setOrderSelf] = useState([]);
+    const [orderView, setOrderView] = useState(null);
     const [isUpdate, setIsUpdate] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+    const hideModal = () => {
+        setModalShow(false);
+        setOrderView(null);
+    };
 
     useEffect(() => {
         if (auth) {
@@ -73,6 +80,21 @@ const OrderSelf = () => {
         })
     }
 
+    const handeViewOrder = (id) => {
+        orderApi.viewOrder({order_id: id, token: auth.token})
+        .then(response => {
+            if (response.result === 1) {
+                setOrderView(response.data);
+                setModalShow(true);
+                return;
+            }
+            toast.error(ERROR_MESSAGE, options);
+        })
+        .catch(error => {
+            toast.error(ERROR_MESSAGE, options);
+        })
+    }
+
     useEffect(() => {
         if (loading) {
             document.body.style.overflow = "hidden";
@@ -94,6 +116,7 @@ const OrderSelf = () => {
                                 return <div key={item.id}>
                                     <div className="order-check-content px-4">
                                         {item.status !== -1 && item.payment !== 2 && <button className="btn btn-danger text-end btn-rm-order" onClick={() => rmOrder(item.id)}>Huỷ đơn hàng</button> }
+                                        <button className="btn btn-secondary btn-view-order" onClick={e => handeViewOrder(item.id)}>Xem chi tiết</button>
                                         <Row className="py-2">
                                             <Col>Mã đơn hàng: {item.id}</Col>
                                             <Col>Trạng thái: {handleStatus(item.status)}</Col>
@@ -115,6 +138,7 @@ const OrderSelf = () => {
                         }
                     </div>
                 </div>
+                {orderView && <ModalOrderView show={modalShow} onHide={hideModal} order={orderView}/>}
                 {loading && <PageLoader/>}
             </ScreensLayout>
         </>

@@ -22,6 +22,10 @@ const orderApi = {
         const url = '/order/cancel';
         return axiosClient.post(url, params);
     },
+    viewOrder: (params) => {
+        const url = '/order/view';
+        return axiosClient.get(url, {params});
+    },
 }
 
 export default orderApi;

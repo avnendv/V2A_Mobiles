@@ -172,9 +172,16 @@ td {
 .order-self {
     .order-check-content {
         position: relative;
+        margin-top: 40px;
         .btn-rm-order {
             position: absolute;
             right: 0;
+            top: -35px;
+        }
+        .btn-view-order {
+            position: absolute;
+            top: -35px;
+            right: 140px;
         }
     }
 }

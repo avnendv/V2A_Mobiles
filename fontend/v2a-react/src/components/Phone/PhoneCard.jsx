@@ -31,7 +31,7 @@ export default function PhoneCard(props) {
     return (
         <div className="single-product">
             <div className="product-f-image">
-                <img src="https://img.hungmobile.vn/hungmobile-vn/2021/11/w200/thuml.jpg" alt="" />
+                <img src={props.phone.image} alt="" />
                 <div className="product-hover">
                     <div className="add-to-cart-link" onClick={() => addToCart()}><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</div>
                     <Link to={linkName.PHONE.DETAIL_INDEX + `/${props.phone.slug}`} className="view-details-link"><i className="fa fa-search"></i> Xem chi tiết</Link>

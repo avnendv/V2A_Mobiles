@@ -7,7 +7,7 @@ export default function SliderTop(props) {
             <div className="slider-area">
                 <Carousel autoplay autoplaySpeed={1000}>
                     <div className='carousel-item-custom'>
-                        <img src="https://cdn.hoanghamobile.com/i/home/Uploads/2022/05/05/hotsale-samsung-tu-2904-0405-03.jpg" alt="Slide" />
+                        <img src="/hotsale-samsung-tu-2904-0405-03.jpg" alt="Slide" />
 						<div className="caption-group">
 							<h2 className="caption title">
 								iPhone <span className="primary">6 <strong>Plus</strong></span>
@@ -17,7 +17,7 @@ export default function SliderTop(props) {
 						</div>
                     </div>
                     <div className='carousel-item-custom'>
-                        <img src="https://cdn.hoanghamobile.com/i/home/Uploads/2022/05/05/hotsale-samsung-tu-2904-0405-03.jpg" alt="Slide" />
+                        <img src="/hotsale-samsung-tu-2904-0405-03.jpg" alt="Slide" />
 						<div className="caption-group">
 							<h2 className="caption title">
 								{/* iPhone <span className="primary">6 <strong>Plus</strong></span> */}
@@ -27,7 +27,7 @@ export default function SliderTop(props) {
 						</div>
                     </div>
                     <div className='carousel-item-custom'>
-                    <img src="https://cdn.hoanghamobile.com/i/home/Uploads/2022/05/02/web-xiaomi-1200x382.png" alt="Slide" />
+                    <img src="/web-xiaomi-1200x382.png" alt="Slide" />
 						<div className="caption-group">
 							<h2 className="caption title">
 								{/* iPhone <span className="primary">6 <strong>Plus</strong></span> */}
@@ -37,7 +37,7 @@ export default function SliderTop(props) {
 						</div>
                     </div>
                     <div className='carousel-item-custom'>
-                        <img src="https://cdn.hoanghamobile.com/i/home/Uploads/2022/05/02/web-xiaomi-1200x382.png" alt="Slide" />
+                        <img src="/web-xiaomi-1200x382.png" alt="Slide" />
 						<div className="caption-group">
 							<h2 className="caption title">
 								{/* iPhone <span className="primary">6 <strong>Plus</strong></span> */}

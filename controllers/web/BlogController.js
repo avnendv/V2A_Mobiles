@@ -9,7 +9,9 @@ module.exports.index = (req, res, next) => {
     .then(blogs => {
         res.render('admin/blog/index', {blogs: blogs, query: req.query });
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.create = (req, res, next) => {
     res.render('admin/blog/create');
@@ -34,14 +36,18 @@ module.exports.store = (req, res, next) => {
     .then(() => {
         res.redirect('/admin/blog');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.edit = (req, res, next) => {
     Blog.findById(req.params.id)
     .then(blog => {
         res.render('admin/blog/edit', { blog: blog })
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.update = (req, res, next) => {
     const errors = validationResult(req);
@@ -63,12 +69,16 @@ module.exports.update = (req, res, next) => {
     .then(() => {
         res.redirect('/admin/blog');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.destroy = (req, res, next) => {
     Blog.destroy(req.params.id, 1)
     .then(() => {
         res.redirect('/admin/blog');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }

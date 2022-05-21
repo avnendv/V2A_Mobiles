@@ -21,6 +21,9 @@ module.exports.login = (req, res, next) => {
         }
         return res.render('admin/auth/login', error);
     })
+    .catch(error => {
+        next();
+    });
 };
 module.exports.logout = (req, res, next) => {
     req.session.destroy(function (err) {});

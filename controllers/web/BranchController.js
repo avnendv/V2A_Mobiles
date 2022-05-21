@@ -19,7 +19,9 @@ module.exports.store = (req, res, next) => {
     .then(() => {
         res.redirect('/admin/branch');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.update = (req, res, next) => {
     const errors = validationResult(req);
@@ -34,12 +36,16 @@ module.exports.update = (req, res, next) => {
     .then(() => {
         res.redirect('/admin/branch');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.destroy = (req, res, next) => {
     Branch.destroy(req.params.branch_id)
     .then(() => {
         res.redirect('/admin/branch');
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }

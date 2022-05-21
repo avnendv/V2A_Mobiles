@@ -28,7 +28,9 @@ function router(app){
     app.use('/api', api);
 
     //Pages Client
-    app.use('/admin', requireLogin, linksAdmin, web);
+    app.use('/admin', requireLogin, linksAdmin, web, (req, res, next) => {
+        res.render('error');
+    });
 }
 
 module.exports = router;

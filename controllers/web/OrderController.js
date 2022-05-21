@@ -6,14 +6,18 @@ module.exports.index = (req, res, next) => {
     .then(orders => {
         res.render('admin/order/index', {orders: orders, query: req.query });
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.detail = (req, res, next) => {
     Order.findDetail({id: req.params.id})
     .then(order => {
         res.render('admin/order/detail', {order: order});
     })
-    .catch(next);
+    .catch(error => {
+        next();
+    });
 }
 module.exports.update = (req, res, next) => {
     const data = {};

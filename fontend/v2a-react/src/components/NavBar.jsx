@@ -77,7 +77,8 @@ export default function NavBar(props) {
                             </div>
                             <div className="shopping-item">
                                 <Link to={linkName.CART}>
-                                    <i className="fa fa-shopping-cart"></i> <span className="product-count">{countCart}</span>
+                                    <i className="fa fa-shopping-cart"></i> 
+                                    {/* <span className="product-count">{countCart}</span> */}
                                 </Link>
                             </div>
                         </div>

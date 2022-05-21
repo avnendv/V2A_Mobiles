@@ -522,6 +522,11 @@ h6 {
     position: relative;
 }
 
+.product-f-image img {
+    width: 224px;
+    height: 258px;
+}
+
 .product-hover {
     height: 100%;
     left: 0;

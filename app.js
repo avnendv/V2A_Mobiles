@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
-
+console.log('........');
 router(app);
 
 module.exports = app;
